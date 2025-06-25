@@ -1,0 +1,3 @@
+﻿  Player.cpp
+C:\GitHubProjects\TopDownTemplate\TopDownGame\Player.cpp(38,1): warning C4715: 'Player::CheckCollision': not all control paths return a value
+  tmpl_2019-08.vcxproj -> C:\GitHubProjects\TopDownTemplate\TopDownGame\tmpl_2019-08_x64_debug.exe
