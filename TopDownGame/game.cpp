@@ -4,7 +4,7 @@
 namespace Tmpl8
 { 
 	constexpr int MAPWIDTH = 25;
-	constexpr int MAPHEIGHT = 16;
+	constexpr int MAPHEIGHT = 32;
 
 	std::vector<std::string> map = {
 	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
@@ -22,20 +22,60 @@ namespace Tmpl8
 	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
 	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
 	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	//"-------------------------------------------------",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	"b b cXcXcXb b b b b b a a a b b b b b b b b b b b ",
+	"b b cXcXcXb b b b b b a a a b b b b b b b b b b b ",
+	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
+	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
+	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
+	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
+	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
+	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
+	"b b b b cXcXb b b b b a a a b b b b b b b b b b b ",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
+	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
 	"b b b b b b b b b b b a a a b b b b b b b b b b b "
 	};
 
-	Player player = Player(&playerSprite, 400, 200, 48, 72, map);
+	int currentLevel = 1;
+
+	static Sprite tileMapSprite(new Surface("assets/tiles.png"), 4);
+
+	Map tileMap(&tileMapSprite, map, 25, 16);
+
+	Player player = Player(&playerSprite, 400, 200, 48, 72, &tileMap, currentLevel);
+
+	std::vector<NPC> npcs;
+
+	LevelTriggerManager levelTriggerManager(currentLevel);
+
+	void Game::initLevelTriggers()
+	{
+		levelTriggerManager.AddTrigger(11 * 32, 0, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 512 - 72, 0, 1);
+		levelTriggerManager.AddTrigger(11 * 32, 512 - 5, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 0, 1, 0);
+	}
+
+	void Game::initNPCs()
+	{
+		npcs.emplace_back(&npcSprite, 500, 246, 48, 72, 1, currentLevel);
+	}
+
+	//UI DIALOGUE SIZE 100,384,600,128
 
 	void Game::Init()
 	{
+		initLevelTriggers();
+		initNPCs();
 	}
 
 	void Game::Shutdown()
 	{
 	}
-
-	static Sprite tileMap(new Surface("assets/tiles.png"), 4);
 
 	void Game::Tick(float deltaTime)
 	{
@@ -44,19 +84,20 @@ namespace Tmpl8
 		updateControl();
 		player.update(deltaTime);
 
-		for (int i = 0; i < MAPWIDTH; i++)
-		{
-			for (int j = 0; j < MAPHEIGHT; j++)
-			{
-				int index = map[j][i * 2] - 'a';
-				tileMap.SetFrame(index);
-				tileMap.DrawScaled(i * 32, j * 32, 32, 32, screen);
-			}
-		}
+		levelTriggerManager.CheckCollision(&player);
+
+		tileMap.Draw(currentLevel, screen);
+
+		for (const auto& npc : npcs)
+			npc.render(screen);
 
 		player.render(screen);
-	}
 
+		//Up
+		//screen->Bar(100, 0, 700, 128, Tmpl8::Pixel(0x000000));
+		//Down
+		//screen->Bar(100, 384, 700, 512, Tmpl8::Pixel(0x000000));
+	}
 	void Game::updateControl()
 	{
 		for (const auto& key : buttons)

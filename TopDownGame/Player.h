@@ -1,14 +1,16 @@
 #pragma once
 #include <cstdio>
-#include "Player.h"
+#include "Entity.h"
+#include "Map.h"
 #include "surface.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
-class Player
+class Player : public Entity
 {
 public:
-	Player(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, const std::vector<std::string>& map);
+	Player(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, Map* map, int& currentLevel);
 	virtual ~Player();
 
 	void moveLeft();
@@ -16,14 +18,11 @@ public:
 	void moveUp();
 	void moveDown();
 
-	void update(float deltaTime);
-	void render(Tmpl8::Surface* screen);
+	void update(float deltaTime) override;
 private:
-	Tmpl8::Sprite sprite;
-
 	bool CheckCollision(int px, int py);
 
-	int px, py, sx, sy;
 	int fx, fy;
-	std::vector<std::string> map;
+	Map* map;
+	int& currentLevel;
 };

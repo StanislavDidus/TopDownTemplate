@@ -223,15 +223,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="LevelTriggerManager.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="surface.cpp" />
     <ClCompile Include="template.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawableObject.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="LevelTriggerManager.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="surface.h" />
     <ClInclude Include="template.h" />
+    <ClInclude Include="UIElement.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

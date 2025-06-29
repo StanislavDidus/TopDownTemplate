@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, const std::vector<std::string>& map) : sprite(*sprite), px(px), py(py), sx(sx), sy(sy), map(map)
+Player::Player(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, Map* map, int& currentLevel) : Entity(sprite, px, py, sx, sy), map(map),
+currentLevel(currentLevel), fx(0), fy(0)
 {
 
 }
@@ -30,11 +31,9 @@ void Player::moveDown()
 	fy++;
 }
 
-bool Player::CheckCollision(int px, int py)
+int Clamp(int value, int min, int max)
 {
-	int tx = px / 32, ty = py / 32;
-	if(ty < map.size() && tx * 2 + 1 < map[ty].size())
-		return map[ty][tx * 2 + 1] != 'X';
+	return std::min(std::max(value, min), max);
 }
 
 void Player::update(float deltaTime)
@@ -43,13 +42,19 @@ void Player::update(float deltaTime)
 	int ny = py + fy;
 	fx = 0, fy = 0;
 
-	if (CheckCollision(nx, py) && CheckCollision(nx + sx, py) && CheckCollision(nx, py + sy) && CheckCollision(nx + sx, py + sy))
+	if (CheckCollision(nx, py + 36) && CheckCollision(nx + sx, py + 36) && CheckCollision(nx, py + sy) && CheckCollision(nx + sx, py + sy))
 		px = nx;
-	if (CheckCollision(px, ny) && CheckCollision(px + sx, ny) && CheckCollision(px, ny + sy) && CheckCollision(px + sx, ny + sy))
+	if (CheckCollision(px, ny + 36) && CheckCollision(px + sx, ny + 36) && CheckCollision(px, ny + sy) && CheckCollision(px + sx, ny + sy))
 		py = ny;
+
+	px = std::min(std::max(px, 0), 800-48);
+	py = std::min(std::max(py, 0 - 24), 500 - 48);
 }
 
-void Player::render(Tmpl8::Surface* screen)
+bool Player::CheckCollision(int px, int py)
 {
-	sprite.DrawScaled(px, py, sx, sy, screen);
+	std::vector<std::string> level = map->GetLevel(currentLevel);
+	int tx = px / 32, ty = py / 32;
+	if (ty < level.size() && tx * 2 + 1 < level[ty].size())
+		return level[ty][tx * 2 + 1] != 'X';
 }

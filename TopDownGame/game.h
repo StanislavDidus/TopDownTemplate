@@ -1,6 +1,10 @@
 #pragma once
 #include <cstdio>
+#include "Entity.h"
 #include "Player.h"
+#include "NPC.h"
+#include "Map.h"
+#include "LevelTriggerManager.h"
 #include "surface.h"
 #include <set>
 #include <vector>
@@ -11,6 +15,7 @@ namespace Tmpl8 {
 class Surface;
 
 static Sprite playerSprite(new Surface("assets/player.png"), 1);
+static Sprite npcSprite(new Surface("assets/npc.png"), 1);
 
 class Game
 {
@@ -30,7 +35,8 @@ private:
 
 	std::set<int> buttons;
 
-	
+	void initLevelTriggers();
+	void initNPCs();
 
 	void updateControl();
 };

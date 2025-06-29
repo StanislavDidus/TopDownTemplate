@@ -1,4 +1,7 @@
 C:\GitHubProjects\TopDownTemplate\TopDownGame\game.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\game.obj
+C:\GitHubProjects\TopDownTemplate\TopDownGame\LevelTriggerManager.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\LevelTriggerManager.obj
+C:\GitHubProjects\TopDownTemplate\TopDownGame\Map.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\Map.obj
+C:\GitHubProjects\TopDownTemplate\TopDownGame\NPC.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\NPC.obj
 C:\GitHubProjects\TopDownTemplate\TopDownGame\Player.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\Player.obj
 C:\GitHubProjects\TopDownTemplate\TopDownGame\surface.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\surface.obj
 C:\GitHubProjects\TopDownTemplate\TopDownGame\template.cpp;C:\GitHubProjects\TopDownTemplate\TopDownGame\Debug\template.obj
