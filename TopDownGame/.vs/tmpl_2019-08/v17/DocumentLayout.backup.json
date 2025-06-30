@@ -90,12 +90,11 @@
               "Title": "UIElement.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
               "RelativeDocumentMoniker": "UIElement.h",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h*",
-              "RelativeToolTip": "UIElement.h*",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
+              "RelativeToolTip": "UIElement.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-29T12:15:58.417Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T12:15:58.417Z"
             },
             {
               "$type": "Document",
@@ -107,8 +106,7 @@
               "RelativeToolTip": "DrawableObject.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-29T12:09:51.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T12:09:51.786Z"
             },
             {
               "$type": "Document",
@@ -120,8 +118,7 @@
               "RelativeToolTip": "NPC.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-28T17:13:02.822Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-28T17:13:02.822Z"
             },
             {
               "$type": "Document",
@@ -170,8 +167,7 @@
               "RelativeToolTip": "LevelTriggerManager.h",
               "ViewState": "AgIAAAYAAAAAAAAAAAAUwB8AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-27T13:17:29.721Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-27T13:17:29.721Z"
             },
             {
               "$type": "Document",
@@ -291,8 +287,7 @@
               "RelativeToolTip": "game.cpp",
               "ViewState": "AgIAAFAAAAAAAAAAAAAkwGoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-21T14:22:37.399Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-21T14:22:37.399Z"
             },
             {
               "$type": "Document",

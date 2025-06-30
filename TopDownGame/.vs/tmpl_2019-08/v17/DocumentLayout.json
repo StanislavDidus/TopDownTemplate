@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:UIElement.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -82,17 +82,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "UIElement.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
               "RelativeDocumentMoniker": "UIElement.h",
               "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
               "RelativeToolTip": "UIElement.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-29T12:15:58.417Z",
               "EditorCaption": ""
@@ -107,8 +107,7 @@
               "RelativeToolTip": "DrawableObject.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-29T12:09:51.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-29T12:09:51.786Z"
             },
             {
               "$type": "Document",
@@ -120,8 +119,7 @@
               "RelativeToolTip": "NPC.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-28T17:13:02.822Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-28T17:13:02.822Z"
             },
             {
               "$type": "Document",
@@ -137,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Entity.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h",
               "RelativeDocumentMoniker": "Entity.h",
@@ -170,8 +168,7 @@
               "RelativeToolTip": "LevelTriggerManager.h",
               "ViewState": "AgIAAAYAAAAAAAAAAAAUwB8AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-27T13:17:29.721Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-27T13:17:29.721Z"
             },
             {
               "$type": "Document",
@@ -291,8 +288,7 @@
               "RelativeToolTip": "game.cpp",
               "ViewState": "AgIAAFAAAAAAAAAAAAAkwGoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-21T14:22:37.399Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-21T14:22:37.399Z"
             },
             {
               "$type": "Document",
