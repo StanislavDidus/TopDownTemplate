@@ -1,8 +1,6 @@
-﻿  LevelTriggerManager.cpp
-  NPC.cpp
-  Player.cpp
+﻿  DialogueSystem.cpp
+C:\GitHubProjects\TopDownTemplate\TopDownGame\DialogueSystem.cpp(37,54): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\GitHubProjects\TopDownTemplate\TopDownGame\DialogueSystem.cpp(37,48): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   game.cpp
-  template.cpp
   Generating Code...
-C:\GitHubProjects\TopDownTemplate\TopDownGame\Player.cpp(60,1): warning C4715: 'Player::CheckCollision': not all control paths return a value
   tmpl_2019-08.vcxproj -> C:\GitHubProjects\TopDownTemplate\TopDownGame\tmpl_2019-08_x64_debug.exe

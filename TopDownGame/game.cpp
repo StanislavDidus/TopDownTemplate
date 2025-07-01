@@ -65,12 +65,21 @@ namespace Tmpl8
 		npcs.emplace_back(&npcSprite, 500, 246, 48, 72, 1, currentLevel);
 	}
 
+	void Game::initUI()
+	{
+		dialogueSystem = std::make_unique<DialogueSystem>(&dialogueMenu, 100, 384, 600, 128);
+		dialogueSystem->showReplic({"Nothing beats a J2 Holiday, and now you can save 15 pounds per person!", 5.f});
+		dialogueSystem->showReplic({ "Toss a coint to the witcher!", 3.f });
+		dialogueSystem->showReplic({ "A Valley of Plenty!", 2.f });
+	}
+
 	//UI DIALOGUE SIZE 100,384,600,128
 
 	void Game::Init()
 	{
 		initLevelTriggers();
 		initNPCs();
+		initUI();
 	}
 
 	void Game::Shutdown()
@@ -80,18 +89,24 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		screen->Clear(0);
+		deltaTime /= 1000.f;
 
+		//UPDATE
 		updateControl();
 		player.update(deltaTime);
+		dialogueSystem->update(deltaTime);
 
 		levelTriggerManager.CheckCollision(&player);
 
+		//RENDER
 		tileMap.Draw(currentLevel, screen);
 
-		for (const auto& npc : npcs)
+		for (auto& npc : npcs)
 			npc.render(screen);
 
 		player.render(screen);
+
+		dialogueSystem->render(screen);
 
 		//Up
 		//screen->Bar(100, 0, 700, 128, Tmpl8::Pixel(0x000000));

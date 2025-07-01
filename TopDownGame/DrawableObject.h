@@ -13,7 +13,7 @@ public:
 	virtual ~DrawableObject() {}
 
 	virtual void update(float deltaTime) {}
-	virtual void render(Tmpl8::Surface* screen) const { sprite->DrawScaled(px, py, sx, sy, screen); }
+	virtual void render(Tmpl8::Surface* screen) { sprite->DrawScaled(px, py, sx, sy, screen); }
 
 	Vec2i GetPosition() { return { px, py }; }
 	Vec2i GetSize() { return { sx, sy }; }

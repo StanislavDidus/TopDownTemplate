@@ -14,7 +14,7 @@ public:
 	virtual ~NPC();
 
 	void update(float deltaTime) override;
-	void render(Tmpl8::Surface* screen) const override;
+	void render(Tmpl8::Surface* screen) override;
 private:
 	int neededLevel;
 	int& currentLevel;

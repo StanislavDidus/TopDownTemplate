@@ -15,7 +15,7 @@ void NPC::update(float deltaTime)
 		return;
 }
 
-void NPC::render(Tmpl8::Surface* screen) const
+void NPC::render(Tmpl8::Surface* screen) 
 {
 	if (neededLevel != currentLevel)
 		return;

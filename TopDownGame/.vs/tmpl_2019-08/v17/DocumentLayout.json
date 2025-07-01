@@ -3,44 +3,64 @@
   "WorkspaceRootPath": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:UIElement.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:surface.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:DrawableObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\NPC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:NPC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\LevelTriggerManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:LevelTriggerManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DialogueSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:DialogueSystem.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Replic.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Replic.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DialogueSystem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:DialogueSystem.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Dialogue.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Dialogue.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\NPC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:NPC.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\NPC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:NPC.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:UIElement.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:DrawableObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\LevelTriggerManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:LevelTriggerManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Map.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -57,10 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\LevelTriggerManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:LevelTriggerManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:surface.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\template.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -82,42 +98,66 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UIElement.h",
-              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
-              "RelativeDocumentMoniker": "UIElement.h",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
-              "RelativeToolTip": "UIElement.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "DialogueSystem.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DialogueSystem.h",
+              "RelativeDocumentMoniker": "DialogueSystem.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DialogueSystem.h",
+              "RelativeToolTip": "DialogueSystem.h",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-29T12:15:58.417Z",
+              "WhenOpened": "2025-06-30T14:50:56.516Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DialogueSystem.cpp",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DialogueSystem.cpp",
+              "RelativeDocumentMoniker": "DialogueSystem.cpp",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DialogueSystem.cpp",
+              "RelativeToolTip": "DialogueSystem.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-30T15:02:45.832Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DrawableObject.h",
-              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h",
-              "RelativeDocumentMoniker": "DrawableObject.h",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h",
-              "RelativeToolTip": "DrawableObject.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAACAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "Replic.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Replic.h",
+              "RelativeDocumentMoniker": "Replic.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Replic.h",
+              "RelativeToolTip": "Replic.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-29T12:09:51.786Z"
+              "WhenOpened": "2025-06-30T14:25:58.182Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
+              "Title": "Dialogue.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Dialogue.h",
+              "RelativeDocumentMoniker": "Dialogue.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Dialogue.h",
+              "RelativeToolTip": "Dialogue.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-30T14:25:48.361Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "NPC.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\NPC.h",
               "RelativeDocumentMoniker": "NPC.h",
               "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\NPC.h",
               "RelativeToolTip": "NPC.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-28T17:13:02.822Z"
             },
@@ -129,26 +169,13 @@
               "RelativeDocumentMoniker": "NPC.cpp",
               "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\NPC.cpp",
               "RelativeToolTip": "NPC.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAArwBgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAUwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-28T17:42:55.345Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Entity.h",
-              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h",
-              "RelativeDocumentMoniker": "Entity.h",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h",
-              "RelativeToolTip": "Entity.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-28T09:28:34.786Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "LevelTriggerManager.cpp",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\LevelTriggerManager.cpp",
               "RelativeDocumentMoniker": "LevelTriggerManager.cpp",
@@ -160,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "LevelTriggerManager.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\LevelTriggerManager.h",
               "RelativeDocumentMoniker": "LevelTriggerManager.h",
@@ -172,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "Map.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Map.h",
               "RelativeDocumentMoniker": "Map.h",
@@ -184,7 +211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "Map.cpp",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Map.cpp",
               "RelativeDocumentMoniker": "Map.cpp",
@@ -196,7 +223,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Player.h",
               "RelativeDocumentMoniker": "Player.h",
@@ -208,7 +235,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
+              "Title": "game.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.h",
+              "RelativeDocumentMoniker": "game.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.h",
+              "RelativeToolTip": "game.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-21T14:22:34.715Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "game.cpp",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.cpp",
+              "RelativeDocumentMoniker": "game.cpp",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.cpp",
+              "RelativeToolTip": "game.cpp",
+              "ViewState": "AgIAADQAAAAAAAAAAAArwEcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-21T14:22:37.399Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "surface.cpp",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.cpp",
+              "RelativeDocumentMoniker": "surface.cpp",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.cpp",
+              "RelativeToolTip": "surface.cpp",
+              "ViewState": "AgIAAHQAAAAAAAAAAAArwH0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-21T14:26:35.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DrawableObject.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h",
+              "RelativeDocumentMoniker": "DrawableObject.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\DrawableObject.h",
+              "RelativeToolTip": "DrawableObject.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-29T12:09:51.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UIElement.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
+              "RelativeDocumentMoniker": "UIElement.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\UIElement.h",
+              "RelativeToolTip": "UIElement.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-29T12:15:58.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Player.cpp",
               "RelativeDocumentMoniker": "Player.cpp",
@@ -220,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "template.cpp",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\template.cpp",
               "RelativeDocumentMoniker": "template.cpp",
@@ -232,7 +320,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 12,
+              "Title": "Entity.h",
+              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h",
+              "RelativeDocumentMoniker": "Entity.h",
+              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Entity.h",
+              "RelativeToolTip": "Entity.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-28T09:28:34.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
               "Title": "template.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\template.h",
               "RelativeDocumentMoniker": "template.h",
@@ -244,19 +344,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "surface.cpp",
-              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.cpp",
-              "RelativeDocumentMoniker": "surface.cpp",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.cpp",
-              "RelativeToolTip": "surface.cpp",
-              "ViewState": "AgIAAL4BAAAAAAAAAAArwNABAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-21T14:26:35.263Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "surface.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\surface.h",
               "RelativeDocumentMoniker": "surface.h",
@@ -268,31 +356,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "game.h",
-              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.h",
-              "RelativeDocumentMoniker": "game.h",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.h",
-              "RelativeToolTip": "game.h",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-21T14:22:34.715Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "game.cpp",
-              "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.cpp",
-              "RelativeDocumentMoniker": "game.cpp",
-              "ToolTip": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\game.cpp",
-              "RelativeToolTip": "game.cpp",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAkwGoAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-21T14:22:37.399Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "Vector.h",
               "DocumentMoniker": "C:\\GitHubProjects\\TopDownTemplate\\TopDownGame\\Vector.h",
               "RelativeDocumentMoniker": "Vector.h",

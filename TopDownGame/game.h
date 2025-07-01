@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "LevelTriggerManager.h"
 #include "surface.h"
+#include "DialogueSystem.h"
 #include <set>
 #include <vector>
 #include <iostream>
@@ -16,6 +17,7 @@ class Surface;
 
 static Sprite playerSprite(new Surface("assets/player.png"), 1);
 static Sprite npcSprite(new Surface("assets/npc.png"), 1);
+static Sprite dialogueMenu(new Surface("assets/dm.png"), 1);
 
 class Game
 {
@@ -33,10 +35,13 @@ public:
 private:
 	Surface* screen;
 
+	std::unique_ptr<DialogueSystem> dialogueSystem;
+
 	std::set<int> buttons;
 
 	void initLevelTriggers();
 	void initNPCs();
+	void initUI();
 
 	void updateControl();
 };
