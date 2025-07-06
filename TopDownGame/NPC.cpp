@@ -22,3 +22,8 @@ void NPC::render(Tmpl8::Surface* screen)
 
 	sprite->DrawScaled(px, py, sx, sy, screen);
 }
+
+void NPC::giveDialogue(const Dialogue& d)
+{
+
+}

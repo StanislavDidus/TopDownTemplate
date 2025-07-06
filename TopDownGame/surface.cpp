@@ -5,6 +5,8 @@
 #include "template.h"
 #include <cassert>
 #include <cstring>
+#include <vector>
+#include <iostream>
 #include "FreeImage.h"
 
 namespace Tmpl8 {
@@ -116,7 +118,7 @@ void Surface::Print( char* a_String, int x1, int y1, Pixel color )
 	}
 }
 
-void Surface::PrintScaled(char* a_String, int x1, int y1, int xscale, int yscale, Pixel color)
+void Surface::PrintScaled(char* a_String, int x1, int y1, float scaleX, float scaleY, int x2, Pixel color)
 {
 	if (!fontInitialized)
 	{
@@ -124,30 +126,66 @@ void Surface::PrintScaled(char* a_String, int x1, int y1, int xscale, int yscale
 		fontInitialized = true;
 	}
 
-	Pixel* t = m_Buffer + x1 + y1 * m_Pitch;
-	for (int i = 0; i < (int)(strlen(a_String)); i++, t += 6 * xscale)
+	//Divide words from one string
+	std::vector<std::string> str_list;
+	std::string temp_str;
+	for (int i = 0; i < (int)strlen(a_String); i++)
 	{
-		long pos = 0; //Get index of a letter
-		if ((a_String[i] >= 'A') && (a_String[i] <= 'Z')) pos = s_Transl[(unsigned short)(a_String[i] - ('A' - 'a'))];
-		else pos = s_Transl[(unsigned short)a_String[i]];
-		Pixel* a = t;
-		char* c = (char*)s_Font[pos]; //Get letter
-		for (int v = 0; v < 5; v++, c++, a += m_Pitch * yscale) // Vertical line
+		if (a_String[i] != ' ')
+			temp_str.push_back(a_String[i]);
+		else
 		{
-			for (int h = 0; h < 5; h++, c++) // Horizontal line
+			str_list.push_back(temp_str);
+			temp_str.clear();
+		}
+	}
+	
+
+	int letterSizeX = 5 * scaleX;
+	int letterSizeY = 5 * scaleY;
+
+	int height = 0;
+
+	Pixel* t = m_Buffer + x1 + y1 * m_Pitch;
+
+	for (int i = 0; i < str_list.size(); i++)
+	{
+		auto s = str_list[i];
+		for (int j = 0; j < s.size(); j++, t += letterSizeX)
+		{
+			long pos = 0; //Get index of a letter
+			if ((s[j] >= 'A') && (s[j] <= 'Z')) pos = s_Transl[(unsigned short)(s[j] - ('A' - 'a'))];
+			else pos = s_Transl[(unsigned short)s[j]];
+
+			//Check if letter fits in bounds
+			if ( j == 0 && (t - m_Buffer) - (y1 + height) * m_Pitch + s.size() * letterSizeX > x2)
 			{
-				if (*c == 'o')
+				height += letterSizeY * 2;
+				t = m_Buffer + x1 + (y1 + height) * m_Pitch;
+			}
+			if ((t - m_Buffer) / m_Pitch + letterSizeY >= 512 ||
+				(t - m_Buffer) / m_Pitch < 0)
+			{
+				break;
+			}
+
+			//Draw a letter
+			Pixel* a = t;
+			for (int v = 0; v < letterSizeY; v++, a += m_Pitch) // Vertical line
+			{
+				for (int h = 0; h < letterSizeX; h++) // Horizontal line
 				{
-					for (int u = 0; u < xscale; u++)
+					int srcY = int(v / scaleY);
+					int srcX = int(h / scaleX);
+
+					if (s_Font[pos][srcY][srcX] == 'o')
 					{
-						for (int w = 0; w < yscale; w++)
-						{
-							*(a + int(h * xscale) + u + w * m_Pitch) = color;
-						}
+						*(a + h) = color;
 					}
 				}
 			}
 		}
+		t += letterSizeX;
 	}
 }
 

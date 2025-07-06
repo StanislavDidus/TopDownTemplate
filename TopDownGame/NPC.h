@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "Entity.h"
 #include "Vector.h"
+#include "Dialogue.h"
 #include "surface.h"
 #include <iostream>
 #include <vector>
@@ -15,6 +16,8 @@ public:
 
 	void update(float deltaTime) override;
 	void render(Tmpl8::Surface* screen) override;
+
+	void giveDialogue(const Dialogue& d);
 private:
 	int neededLevel;
 	int& currentLevel;

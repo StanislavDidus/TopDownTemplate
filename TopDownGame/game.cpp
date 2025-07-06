@@ -67,10 +67,21 @@ namespace Tmpl8
 
 	void Game::initUI()
 	{
-		dialogueSystem = std::make_unique<DialogueSystem>(&dialogueMenu, 100, 384, 600, 128);
-		dialogueSystem->showReplic({"Nothing beats a J2 Holiday, and now you can save 15 pounds per person!", 5.f});
-		dialogueSystem->showReplic({ "Toss a coint to the witcher!", 3.f });
-		dialogueSystem->showReplic({ "A Valley of Plenty!", 2.f });
+		dialogueSystem = std::make_unique<DialogueSystem>(&player, &dialogueMenu, 100, 384, 600, 128, 8);
+
+		Dialogue dialogue = { std::vector<Replic>
+		{
+			{"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
+				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
+				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
+				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
+				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
+			, 5.f},
+			{ "Toss a coint to the witcher! ", 3.f },
+			{ "A Valley of Plenty! ", 2.f },
+		} };
+
+		dialogueSystem->showDialogue(dialogue);
 	}
 
 	//UI DIALOGUE SIZE 100,384,600,128
