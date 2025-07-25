@@ -1,6 +1,9 @@
 // Template, BUAS version https://www.buas.nl/games
 // IGAD/BUAS(NHTV)/UU - Jacco Bikker - 2006-2020
 
+#include <iostream>
+#include <vector>
+
 #pragma once
 
 namespace Tmpl8 {
@@ -56,6 +59,7 @@ public:
 	void Centre( char* a_String, int y1, Pixel color );
 	void Print( char* a_String, int x1, int y1, Pixel color );
 	void PrintScaled(char* a_String, int x1, int y1, float scaleX, float scaleY, int x2, Pixel color);
+	void PrintDialogue(const std::vector<std::string>& str_list, int x1, int y1, float scaleX, float scaleY, int width, int height, Pixel color);
 	void Clear( Pixel a_Color );
 	void Line( float x1, float y1, float x2, float y2, Pixel color );
 	void Plot( int x, int y, Pixel c );

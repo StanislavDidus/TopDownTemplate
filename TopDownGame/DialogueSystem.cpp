@@ -1,7 +1,7 @@
 #include "DialogueSystem.h"
 
-DialogueSystem::DialogueSystem(Player* p,Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int outLine) : p(p), UIElement(sprite, px, py, sx, sy),
-isActive(false), currentText(""), timer(0.f), time(0.f), outLine(outLine)
+DialogueSystem::DialogueSystem(Player* p, Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int outLine) : p(p), UIElement(sprite, px, py, sx, sy),
+isActive(false), timer(0.f), time(0.f), outLine(outLine)
 {
 
 }
@@ -13,13 +13,28 @@ DialogueSystem::~DialogueSystem()
 
 void DialogueSystem::update(float deltaTime)
 {
-	if (replicQueue.size() > 0 && currentText == "")
+	if (replicQueue.size() > 0 && currentText.empty())
 	{
 		Replic r = replicQueue.front();
-		currentText = r.text;
+
+		//Divide words from one string
+		std::vector<std::string> str_list;
+		std::string temp_str;
+		for (int i = 0; i < r.text.size(); i++)
+		{
+			if (r.text[i] != ' ')
+				temp_str.push_back(r.text[i]);
+			else
+			{
+				str_list.push_back(temp_str);
+				temp_str.clear();
+			}
+		}
+
+		currentText = str_list;
 		time = r.time;
 	}
-	else if(currentText != "")
+	else if (!currentText.empty())
 	{
 		timer += deltaTime;
 		//std::cout << timer << "\n";
@@ -28,22 +43,22 @@ void DialogueSystem::update(float deltaTime)
 			GetNextMessage();
 	}
 
-	
+
 }
 
 void DialogueSystem::render(Tmpl8::Surface* screen)
 {
 	if (isActive)
 	{
-		if (p->GetPosition().y > 384)
+		if (p->GetPosition().y + p->GetSize().y > 384)
 		{
 			sprite->DrawScaled(px - outLine, 0, sx + outLine, sy + outLine, screen);
-			screen->PrintScaled(&currentText[0], px, outLine, 2.f, 2.f, px + sx - 20, Tmpl8::Pixel(0xFFFFFF));
+			screen->PrintDialogue(currentText, px, outLine, 2.f, 2.f, sx, sy, Tmpl8::Pixel(0xFFFFFF));
 		}
 		else
 		{
 			sprite->DrawScaled(px - outLine, py - outLine, sx + outLine, sy + outLine, screen);
-			screen->PrintScaled(&currentText[0], px, py, 2.f, 2.f, px + sx - 20, Tmpl8::Pixel(0xFFFFFF));
+			screen->PrintDialogue(currentText, px, py, 2.f, 2.f, sx, sy, Tmpl8::Pixel(0xFFFFFF));
 		}
 	}
 }
@@ -64,9 +79,36 @@ void DialogueSystem::showDialogue(const Dialogue& d)
 
 void DialogueSystem::GetNextMessage()
 {
-	replicQueue.pop();
-	currentText = "";
-	time = 0.f;
-	timer = 0.f;
-	isActive = false;
+	if (replicQueue.size() > 0)
+	{
+		replicQueue.pop();
+		currentText.clear();
+		time = 0.f;
+		timer = 0.f;
+		isActive = false;
+	}
+
+	if (replicQueue.size() > 0)
+	{
+		isActive = true;
+		
+		Replic r = replicQueue.front();
+
+		//Divide words from one string
+		std::vector<std::string> str_list;
+		std::string temp_str;
+		for (int i = 0; i < r.text.size(); i++)
+		{
+			if (r.text[i] != ' ')
+				temp_str.push_back(r.text[i]);
+			else
+			{
+				str_list.push_back(temp_str);
+				temp_str.clear();
+			}
+		}
+
+		currentText = str_list;
+		time = r.time;
+	}
 }

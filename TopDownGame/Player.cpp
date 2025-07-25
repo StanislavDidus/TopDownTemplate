@@ -49,6 +49,8 @@ void Player::update(float deltaTime)
 
 	px = std::min(std::max(px, 0), 800-48);
 	py = std::min(std::max(py, 0 - 24), 500 - 48);
+
+	//std::cout << npcs.size() << "\n";
 }
 
 bool Player::CheckCollision(int px, int py)

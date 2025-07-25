@@ -11,6 +11,8 @@
 #include <vector>
 #include <iostream>
 
+//Button release, down, pressed
+
 namespace Tmpl8 {
 
 class Surface;
@@ -30,13 +32,17 @@ public:
 	void MouseDown( int button ) { /* implement if you want to detect mouse button presses */ }
 	void MouseMove( int x, int y ) { /* implement if you want to detect mouse movement */ }
 	void KeyUp(int key) { buttons.erase(key); }
-	void KeyDown(int key) { buttons.insert(key); }
+	void KeyDown(int key) 
+	{ 
+		buttons.insert(key); 
+	}
 
 private:
 	Surface* screen;
 
 	std::unique_ptr<DialogueSystem> dialogueSystem;
 
+	std::set<int> previousButtons;
 	std::set<int> buttons;
 
 	void initLevelTriggers();
@@ -44,6 +50,14 @@ private:
 	void initUI();
 
 	void updateControl();
+	void CheckInteractions();
+
+	bool wasButtonPresseed(int key) 
+	{ 
+		return std::find(previousButtons.begin(), previousButtons.end(), key) != previousButtons.end(); 
+	}
+
+	int interactDistance = 100;
 };
 
 }; // namespace Tmpl8

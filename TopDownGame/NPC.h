@@ -1,14 +1,18 @@
 #pragma once
 
 #include <cstdio>
-#include "Entity.h"
+#include "InteractableObject.h"
 #include "Vector.h"
 #include "Dialogue.h"
+
+#include <queue>
 #include "surface.h"
 #include <iostream>
 #include <vector>
 
-class NPC : public Entity
+class DialogueSystem;
+
+class NPC : public InteractableObject
 {
 public:
 	NPC(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int neededLevel, int& currentLevel);
@@ -18,8 +22,13 @@ public:
 	void render(Tmpl8::Surface* screen) override;
 
 	void giveDialogue(const Dialogue& d);
-private:
+
+	std::queue<Dialogue> dialogueQueue;
 	int neededLevel;
+private:
+
 	int& currentLevel;
+
+	
 };
 

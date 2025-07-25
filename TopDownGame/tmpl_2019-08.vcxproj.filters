@@ -25,6 +25,9 @@
     <ClCompile Include="DialogueSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="InteractableObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="surface.h">
@@ -67,6 +70,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="DialogueSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableObject.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -189,6 +189,63 @@ void Surface::PrintScaled(char* a_String, int x1, int y1, float scaleX, float sc
 	}
 }
 
+void Surface::PrintDialogue(const std::vector<std::string>& str_list, int x1, int y1, float scaleX, float scaleY, int width, int height, Pixel color)
+{
+	if (!fontInitialized)
+	{
+		InitCharset();
+		fontInitialized = true;
+	}
+
+	int letterSizeX = 5 * scaleX;
+	int letterSizeY = 5 * scaleY;
+
+	int raw = 0;
+
+	Pixel* t = m_Buffer + x1 + y1 * m_Pitch;
+
+	for (int i = 0; i < str_list.size(); i++)
+	{
+		auto s = str_list[i];
+		for (int j = 0; j < s.size(); j++, t += letterSizeX)
+		{
+			long pos = 0; //Get index of a letter
+			if ((s[j] >= 'A') && (s[j] <= 'Z')) pos = s_Transl[(unsigned short)(s[j] - ('A' - 'a'))];
+			else pos = s_Transl[(unsigned short)s[j]];
+
+			//Check if letter fits in bounds
+			if (j == 0 && (t - m_Buffer) - (y1 + raw) * m_Pitch + s.size() * letterSizeX > x1 + width)
+			{
+				raw += letterSizeY * 2;
+				t = m_Buffer + x1 + (y1 + raw) * m_Pitch;
+			}
+			if ((t - m_Buffer) / m_Pitch + letterSizeY >= 512 ||
+				(t - m_Buffer) / m_Pitch + letterSizeY >= y1 + height ||
+				(t - m_Buffer) / m_Pitch < 0)
+			{
+				break;
+			}
+
+			//Draw a letter
+			Pixel* a = t;
+			for (int v = 0; v < letterSizeY; v++, a += m_Pitch) // Vertical line
+			{
+				for (int h = 0; h < letterSizeX; h++) // Horizontal line
+				{
+					int srcY = int(v / scaleY);
+					int srcX = int(h / scaleX);
+
+					if (s_Font[pos][srcY][srcX] == 'o')
+					{
+						*(a + h) = color;
+					}
+				}
+			}
+		}
+		t += letterSizeX;
+	}
+}
+
 void Surface::Resize( Surface* a_Orig )
 {
 	Pixel* src = a_Orig->GetBuffer(), *dst = m_Buffer;

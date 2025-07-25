@@ -22,9 +22,12 @@ public:
 
 	void showReplic(const Replic& r);
 	void showDialogue(const Dialogue& d);
-private:
+
+	void GetNextMessage();
+
 	bool isActive;
-	std::string currentText;
+private:
+	 std::vector<std::string> currentText;
 
 	std::queue<Replic> replicQueue;
 	Player* p;
@@ -33,8 +36,5 @@ private:
 
 	float timer;
 	float time;
-
-	void GetNextMessage();
-
 };
 

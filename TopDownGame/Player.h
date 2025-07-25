@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "surface.h"
 #include <iostream>
+#include "NPC.h"
 #include <vector>
 #include <algorithm>
 
@@ -25,4 +26,6 @@ private:
 	int fx, fy;
 	Map* map;
 	int& currentLevel;
-};
+
+	int interactDistance = 100; 
+ };

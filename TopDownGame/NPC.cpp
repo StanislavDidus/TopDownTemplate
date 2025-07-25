@@ -1,6 +1,7 @@
 #include "NPC.h"
+#include "DialogueSystem.h"
 
-NPC::NPC(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int neededLevel, int& currentLevel) : Entity(sprite, px, py, sx, sy), neededLevel(neededLevel),
+NPC::NPC(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int neededLevel, int& currentLevel) : InteractableObject(sprite, px, py, sx, sy), neededLevel(neededLevel),
 currentLevel(currentLevel)
 {
 }
@@ -25,5 +26,5 @@ void NPC::render(Tmpl8::Surface* screen)
 
 void NPC::giveDialogue(const Dialogue& d)
 {
-
+	dialogueQueue.push(d);
 }

@@ -1,6 +1,5 @@
 #include "game.h"
 
-
 namespace Tmpl8
 { 
 	constexpr int MAPWIDTH = 25;
@@ -48,9 +47,9 @@ namespace Tmpl8
 
 	Map tileMap(&tileMapSprite, map, 25, 16);
 
-	Player player = Player(&playerSprite, 400, 200, 48, 72, &tileMap, currentLevel);
+	std::vector<std::shared_ptr<NPC>> npcs;
 
-	std::vector<NPC> npcs;
+	Player player = Player(&playerSprite, 400, 200, 48, 72, &tileMap, currentLevel);
 
 	LevelTriggerManager levelTriggerManager(currentLevel);
 
@@ -62,7 +61,7 @@ namespace Tmpl8
 
 	void Game::initNPCs()
 	{
-		npcs.emplace_back(&npcSprite, 500, 246, 48, 72, 1, currentLevel);
+		npcs.push_back(std::make_shared<NPC>(&npcSprite, 500, 246, 48, 72, 1, currentLevel));
 	}
 
 	void Game::initUI()
@@ -71,23 +70,24 @@ namespace Tmpl8
 
 		Dialogue dialogue = { std::vector<Replic>
 		{
-			{"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
-				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
-				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
-				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
-				"Nothing beats a J2 Holiday, and now you can save 15 pounds per person! "
-			, 5.f},
-			{ "Toss a coint to the witcher! ", 3.f },
-			{ "A Valley of Plenty! ", 2.f },
+			{"Hi stranger! ", 2.f}, 
+			{"What brought you to this place? ", 3.f}, 
+			{"If you are looking for some work, you should pay a visit to a tavern nearby. ", 5.f},
+			{"Though, be aware of the local flock of wolfs, they have already killed one innocent lady. ", 7.f}
 		} };
 
-		dialogueSystem->showDialogue(dialogue);
+		npcs.front()->giveDialogue(dialogue);
+		npcs.front()->giveDialogue({ std::vector<Replic> { {"cought cought ", 2.f} }});
+		//npcs.front()->showDialogue(dialogueSystem.get());
 	}
 
 	//UI DIALOGUE SIZE 100,384,600,128
 
 	void Game::Init()
 	{
+		//ldtk::Project ldtk_project;
+		//ldtk_project.loadFromFile("my_project.ldtk");
+		
 		initLevelTriggers();
 		initNPCs();
 		initUI();
@@ -104,7 +104,9 @@ namespace Tmpl8
 
 		//UPDATE
 		updateControl();
+
 		player.update(deltaTime);
+
 		dialogueSystem->update(deltaTime);
 
 		levelTriggerManager.CheckCollision(&player);
@@ -113,36 +115,79 @@ namespace Tmpl8
 		tileMap.Draw(currentLevel, screen);
 
 		for (auto& npc : npcs)
-			npc.render(screen);
+			npc->render(screen);
 
 		player.render(screen);
 
 		dialogueSystem->render(screen);
 
-		//Up
-		//screen->Bar(100, 0, 700, 128, Tmpl8::Pixel(0x000000));
-		//Down
-		//screen->Bar(100, 384, 700, 512, Tmpl8::Pixel(0x000000));
+		previousButtons = buttons;
 	}
 	void Game::updateControl()
 	{
 		for (const auto& key : buttons)
 		{
-			switch (key)
+			if (!dialogueSystem->isActive)
 			{
-			case 'a':
-				player.moveLeft();
-				break;
-			case 'd':
-				player.moveRight();
-				break;
-			case 'w':
-				player.moveUp();
-				break;
-			case 's':
-				player.moveDown();
-				break;
+				switch (key)
+				{
+				case 'a':
+						player.moveLeft();
+					break;
+				case 'd':
+						player.moveRight();
+					break;
+				case 'w':
+						player.moveUp();
+					break;
+				case 's':
+						player.moveDown();
+					break;
+				}
+			}
+			
+			if (key == 'e' && !wasButtonPresseed('e'))
+			{
+				//Interact with NPCs
+				CheckInteractions();
+			}
+			else if (key == ' ' && !wasButtonPresseed(' '))
+			{
+				//Skip dialogue
+				dialogueSystem->GetNextMessage();
 			}
 		}
+	}
+
+	
+
+	void Game::CheckInteractions()
+	{
+		for (auto* obj : InteractableObject::GetAllInteractables())
+		{
+			NPC* n = dynamic_cast<NPC*>(obj);
+			if (n != nullptr)
+			{
+				if (currentLevel == n->neededLevel)
+				{
+					int dx = n->GetPosition().x - player.GetPosition().x;
+					int dy = n->GetPosition().y - player.GetPosition().y;
+
+					int squareDistance = dx * dx + dy * dy;
+					int squareInteractDistance = interactDistance * interactDistance;
+
+					if (squareDistance < squareInteractDistance)
+					{
+						if (!n->dialogueQueue.empty())
+						{
+							dialogueSystem->showDialogue(n->dialogueQueue.front());
+							n->dialogueQueue.pop();
+							return;
+						}
+					}
+				}
+			}
+		}
+
 	}
 };
