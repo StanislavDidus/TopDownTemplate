@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "LevelTriggerManager.h"
 #include "surface.h"
+#include <LDtkLoader/Project.hpp>
 #include "DialogueSystem.h"
 #include <set>
 #include <vector>

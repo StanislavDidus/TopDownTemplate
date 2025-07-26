@@ -31,5 +31,12 @@ set_target_properties(FreeImage PROPERTIES
 # Створюємо виконуваний файл
 add_executable(MyProject ${SOURCES})
 
+#LDtk
+add_subdirectory(LDtkLoader)
+target_link_libraries(MyProject LDtkLoader)
+target_include_directories(MyProject PRIVATE
+    ${CMAKE_SOURCE_DIR}/LDtkLoader/include
+)
+
 # Лінкуємо всі бібліотеки
 target_link_libraries(MyProject SDL2 SDL2main FreeImage)
