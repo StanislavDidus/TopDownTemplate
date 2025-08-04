@@ -16,3 +16,8 @@ const std::set<InteractableObject*>& InteractableObject::GetAllInteractables()
 {
 	return allInteractables;
 }
+
+void InteractableObject::interact(Entity* entity)
+{
+
+}

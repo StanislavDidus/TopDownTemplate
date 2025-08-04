@@ -158,7 +158,7 @@ void Surface::PrintScaled(char* a_String, int x1, int y1, float scaleX, float sc
 			else pos = s_Transl[(unsigned short)s[j]];
 
 			//Check if letter fits in bounds
-			if ( j == 0 && (t - m_Buffer) - (y1 + height) * m_Pitch + s.size() * letterSizeX > x2)
+			if (j == 0 && (t - m_Buffer) - (y1 + height) * m_Pitch + s.size() * letterSizeX > x1 + x2)
 			{
 				height += letterSizeY * 2;
 				t = m_Buffer + x1 + (y1 + height) * m_Pitch;

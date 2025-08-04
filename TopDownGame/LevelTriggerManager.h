@@ -6,18 +6,41 @@
 #include "Vector.h"
 #include "surface.h"
 #include <iostream>
+#include <functional>
 #include <vector>
+
+class Trigger : public InteractableObject
+{
+public:
+	Trigger(int px, int py, int sx, int sy, int neededLevel, std::function<void()> func, int& currentLevel) : InteractableObject(nullptr, px, py, sx, sy),
+		neededLevel(neededLevel), func(func), currentLevel(currentLevel) {
+	}
+
+	void interact(Entity* entity) override
+	{
+		func();
+	}
+
+	void update(float deltaTime) override {}
+	void render(Tmpl8::Surface* screen) override {}
+
+	int neededLevel;
+private:
+	int& currentLevel;
+	std::function<void()> func;
+};
 
 class LevelTrigger
 {
 public:
 	LevelTrigger(int px, int py, int sx, int sy, int nx, int ny, int neededLevel, int nextLevel) :
-		px(px), py(py), sx(sx), sy(sy), nx(nx), ny(ny), neededLevel(neededLevel), nextLevel(nextLevel), isActive(true) {}
+		px(px), py(py), sx(sx), sy(sy), nx(nx), ny(ny), neededLevel(neededLevel), nextLevel(nextLevel), isActive(true) {
+	}
 	virtual ~LevelTrigger() {}
 
-	bool CheckCollision(Entity* entity, int& currentLevel) 
+	bool CheckCollision(Map* map, Entity* entity)
 	{
-		if (currentLevel != neededLevel)
+		if (map->GetLevel() != neededLevel)
 			return false;
 
 		int entityX2 = entity->GetPosition().x + entity->GetSize().x;
@@ -36,7 +59,7 @@ public:
 			if (isActive)
 			{
 				entity->SetPosition(nx, ny);
-				currentLevel = nextLevel;
+				map->SetLevel(nextLevel);
 				return true;
 			}
 		}
@@ -54,14 +77,13 @@ private:
 class LevelTriggerManager
 {
 public:
-	LevelTriggerManager(int& currentLevel);
+	LevelTriggerManager(Map* map);
 	virtual ~LevelTriggerManager();
 
 	void CheckCollision(Entity* entity);
 	void AddTrigger(int px, int py, int sx, int sy, int nx, int ny, int neededLevel, int nextLevel);
 private:
 	std::vector<LevelTrigger> levelTriggers;
-
-	int& currentLevel;
+	Map* map;
 };
 

@@ -1,6 +1,6 @@
 #include "LevelTriggerManager.h"
 
-LevelTriggerManager::LevelTriggerManager(int& currentLevel) : currentLevel(currentLevel)
+LevelTriggerManager::LevelTriggerManager(Map* map) : map(map)
 {
 
 }
@@ -14,7 +14,7 @@ void LevelTriggerManager::CheckCollision(Entity* entity)
 {
 	for (auto& l : levelTriggers)
 	{
-		if (l.CheckCollision(entity, currentLevel))
+		if (l.CheckCollision(map, entity))
 		{
 			for (auto& l : levelTriggers)
 				l.Disable();

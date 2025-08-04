@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include "surface.h"
+#include "Entity.h"
 #include <set>
 #include "DrawableObject.h"
 #include <iostream>
@@ -14,6 +15,8 @@ public:
 	virtual ~InteractableObject();
 
 	static const std::set<InteractableObject*>& GetAllInteractables();
+
+	virtual void interact(Entity* entity);
 private:
 	static std::set<InteractableObject*> allInteractables;
 };
