@@ -25,6 +25,8 @@ public:
 	std::shared_ptr<Inventory> getInventory() const;
 
 	void Attack();
+	void giveMoney(int money);
+	void giveExp(int exp);
 
 	void update(float deltaTime) override;
 private:

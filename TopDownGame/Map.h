@@ -7,7 +7,7 @@
 #include "surface.h"
 #include "template.h"
 #include "LDtkLoader/Project.hpp"
-#include "Wolf.h"
+#include "Enemy.h"
 #include <map>
 
 class Map

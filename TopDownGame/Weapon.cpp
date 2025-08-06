@@ -1,6 +1,6 @@
 #include "Weapon.h"
 
-Weapon::Weapon(const std::string & iconPath, int damage, float attackSpeed, int value) : Item(iconPath, value), damage(damage), attackSpeed(attackSpeed)
+Weapon::Weapon(const std::string & iconPath, int damage, float attackSpeed, int value) : Item(iconPath, value), damage(damage), attackSpeed(attackSpeed), lastAttackTime(0.f)
 {
 	isUsable = false;
 	isStackable = false;
@@ -11,4 +11,9 @@ Weapon::Weapon(const std::string & iconPath, int damage, float attackSpeed, int 
 
 Weapon::~Weapon()
 {
+}
+
+void Weapon::Attack(std::shared_ptr<Entity> entity)
+{
+	entity->Hit(damage);
 }

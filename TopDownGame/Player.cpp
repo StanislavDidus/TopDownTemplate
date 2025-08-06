@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, Map* map) : Entity(sprite, px, py, sx, sy), map(map), fx(0), fy(0)
+Player::Player(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, Map* map) : Entity(sprite, px, py, sx, sy, 100, 0, 0), map(map), fx(0), fy(0)
 {
 	inventory = std::make_shared<Inventory>(5);
 }
@@ -43,6 +43,16 @@ std::shared_ptr<Inventory> Player::getInventory() const
 void Player::Attack()
 {
 	std::cout << "Attack\n";
+}
+
+void Player::giveMoney(int money)
+{
+	this->money += money;
+}
+
+void Player::giveExp(int exp)
+{
+	this->exp = exp;
 }
 
 void Player::update(float deltaTime)

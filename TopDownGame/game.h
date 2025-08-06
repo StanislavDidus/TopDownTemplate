@@ -13,20 +13,18 @@
 #include <map>
 #include <iostream>
 
+class GameState;
+class ExploringState;
+class BattleState;
+
 //Button release, down, pressed
 
 namespace Tmpl8 {
 
 class Surface;
 
-static Sprite playerSprite(new Surface("assets/player.png"), 1);
 static Sprite npcSprite(new Surface("assets/npc.png"), 1);
 static Sprite dialogueMenu(new Surface("assets/dm.png"), 1);
-
-enum GameState
-{
-	Exploring, Battle
-};
 
 class Game
 {
@@ -44,6 +42,9 @@ public:
 		buttons.insert(key); 
 	}
 
+	friend ExploringState;
+	friend BattleState;
+
 private:
 	Surface* screen;
 
@@ -52,11 +53,13 @@ private:
 
 	std::unique_ptr<DialogueSystem> dialogueSystem;
 
+	std::vector<std::shared_ptr<NPC>> npcs;
+
 	std::set<int> previousButtons;
 	std::set<int> buttons;
 
-	GameState currentState;
-	void setState(GameState& state);
+	std::shared_ptr<GameState> currentState;
+	void setState(std::shared_ptr<GameState> state);
 
 	std::shared_ptr<Player> player;
 	std::shared_ptr<Map> tileMap;
@@ -69,6 +72,9 @@ private:
 	void initUI();
 	void initMap();
 	void initPlayer();
+
+	void update(float deltaTime);
+	void render(Tmpl8::Surface* screen);
 
 	void Attack();
 

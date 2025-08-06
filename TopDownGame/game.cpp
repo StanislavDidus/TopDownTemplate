@@ -1,54 +1,19 @@
 #include "game.h"
+#include "GameState.h"
 
 namespace Tmpl8
 { 
-	constexpr int MAPWIDTH = 25;
-	constexpr int MAPHEIGHT = 32;
-
-	std::vector<std::string> map = {
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b b cXcXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b b cXcXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b b cXcXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	//"-------------------------------------------------",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b cXcXcXb b b b b b a a a b b b b b b b b b b b ",
-	"b b cXcXcXb b b b b b a a a b b b b b b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
-	"b b cXcXcXcXb b b b b a a a a a a a a b b b b b b ",
-	"b b b b cXcXb b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b ",
-	"b b b b b b b b b b b a a a b b b b b b b b b b b "
-	};
-
-	
-
-	std::vector<std::shared_ptr<NPC>> npcs;
 	std::vector<std::shared_ptr<Trigger>> triggers;
 
-	void Game::setState(GameState& state)
+	void Game::setState(std::shared_ptr<GameState> state)
 	{
-		currentState = state;
+		if(currentState != nullptr)
+			currentState->onExit(*this);
+
+		if (state != nullptr)
+			currentState = std::move(state);
+
+		currentState->onEnter(*this);
 	}
 
 	void Game::initSurfaces()
@@ -61,6 +26,12 @@ namespace Tmpl8
 
 		surfaces["Wolf"] = new Surface("assets/wolf.png");
 		sprites["Wolf"] = std::make_shared<Sprite>(surfaces["Wolf"], 1);
+
+		surfaces["BattleMenu"] = new Surface("assets/bm.png");
+		sprites["BattleMenu"] = std::make_shared<Sprite>(surfaces["BattleMenu"], 1);
+
+		surfaces["Player"] = new Surface("assets/player.png");
+		sprites["Player"] = std::make_shared<Sprite>(surfaces["Player"], 1);
 	}
 
 	void Game::initLevelTriggers()
@@ -85,6 +56,7 @@ namespace Tmpl8
 		levelTriggerManager->AddTrigger(24 * 32, 0, 32, 320, 32, 5 * 32, 2, 4);
 		levelTriggerManager->AddTrigger(0, 0, 32, 320, 23*32, 5 * 32, 4, 2);
 
+		player->getInventory()->addItem(sword);
 	}
 
 	void Game::initNPCs()
@@ -100,17 +72,17 @@ namespace Tmpl8
 
 		Dialogue dialogue = { std::vector<Replic>
 		{
-			{"Hi stranger! ", 2.f}, 
-			{"What brought you to this place? ", 3.f}, 
-			{"If you are looking for some work, you should pay a visit to a tavern nearby. ", 5.f},
-			{"Though, be aware of the local flock of wolfs, they have already killed one innocent lady on the pond. ", 7.f}
-		} };
+			{"Hi stranger!", 2.f}, 
+			{"What brought you to this place?", 3.f}, 
+			{"If you are looking for some work, you should pay a visit to a tavern nearby.", 5.f},
+			{"Though, be aware of the local flock of wolfs, they have already killed one innocent lady on the pond.", 7.f}
+		} }; 
 
 		npcs[0]->giveDialogue(dialogue);
-		npcs[0]->giveDialogue({ std::vector<Replic> { {"cought cought ", 2.f} }});
+		npcs[0]->giveDialogue({ std::vector<Replic> { {"cought cought", 2.f} }});
 
-		npcs[1]->giveDialogue({ std::vector<Replic> { {"Hi!, I guess you are looking for some work, don't you? ", 5.f},
-		{"There are some wolfs east of here, you will be awarded if you kill them. ", 5.f}
+		npcs[1]->giveDialogue({ std::vector<Replic> { {"Hi!, I guess you are looking for some work, don't you?", 5.f},
+		{"There is a wolf east of here, you will be awarded if you kill him.", 5.f}
 		}});
 		//npcs.front()->showDialogue(dialogueSystem.get());
 	}
@@ -122,13 +94,12 @@ namespace Tmpl8
 
 	void Game::initPlayer()
 	{
-		player = std::make_shared<Player>(&playerSprite, 400, 200, 48, 72, tileMap.get());
+		player = std::make_shared<Player>(sprites["Player"].get(), 200, 200, 48, 72, tileMap.get());
 	}
 
 	void Game::Init()
 	{
-		//ldtk::Project ldtk_project;
-		//ldtk_project.loadFromFile("my_project.ldtk");
+		setState(std::make_shared<ExploringState>());
 		
 		initSurfaces();
 		initMap();
@@ -145,54 +116,30 @@ namespace Tmpl8
 		
 	}
 
-	void Game::Tick(float deltaTime)
+	void Game::update(float deltaTime)
 	{
-		screen->Clear(0);
 		deltaTime /= 1000.f;
-
-		//std::cout << (1000.f / (deltaTime * 1000.f)) << "\n";
-
-		switch (currentState)
-		{
-		case Exploring:
-
-			break;
-		case Battle:
-
-			break;
-		}
-
-		//UPDATE
-		updateControl();
-
+		
 		player->update(deltaTime);
 
-		dialogueSystem->update(deltaTime);
-
-		levelTriggerManager->CheckCollision(player.get());
-
-		CheckInteractions();
-	
-		//RENDER
-		tileMap->render(screen);
-
-		for (auto& npc : npcs)
-			npc->render(screen);
-
-		//House
-		if (tileMap->GetLevel() == 2)
-			sprites["House"]->Draw(screen, 240, 0);
-
-		player->render(screen);
-
-		dialogueSystem->render(screen);
-
-		
-
-		if(isInteraction)
-			screen->PrintScaled("(E) ", (player->GetPosition().x + player->GetSize().x / 2) - 3 * 5 * 3 / 2, player->GetPosition().y - 20, 3.f, 3.f, 400, Tmpl8::Pixel(0xFFFFFF));
+		currentState->onUpdate(*this, deltaTime);
 
 		previousButtons = buttons;
+	}
+
+	void Game::render(Tmpl8::Surface* screen)
+	{
+		screen->Clear(0);
+		tileMap->render(screen);
+		dialogueSystem->render(screen);
+
+		currentState->onRender(*this, screen);
+	}
+
+	void Game::Tick(float deltaTime)
+	{
+		update(deltaTime);
+		render(screen);
 	}
 	void Game::updateControl()
 	{
@@ -252,15 +199,20 @@ namespace Tmpl8
 	{
 		for (auto& e : tileMap->getEntities())
 		{
-			int dx = e->GetPosition().x - player->GetPosition().x;
-			int dy = e->GetPosition().y - player->GetPosition().y;
-
-			int squareDistance = dx * dx + dy * dy;
-			int squareInteractDistance = interactDistance * interactDistance;
-
-			if (squareDistance < squareInteractDistance)
+			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(e);
+			if (enemy != nullptr)
 			{
-				//Start Battle
+				int dx = enemy->GetPosition().x - player->GetPosition().x;
+				int dy = enemy->GetPosition().y - player->GetPosition().y;
+
+				int squareDistance = dx * dx + dy * dy;
+				int squareInteractDistance = interactDistance * interactDistance;
+
+				if (squareDistance < squareInteractDistance)
+				{
+					//Start Battle
+					setState(std::make_shared<BattleState>(std::vector<std::shared_ptr<Enemy>>{enemy}));
+				}
 			}
 		}
 	}

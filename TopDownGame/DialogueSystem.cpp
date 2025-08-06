@@ -24,7 +24,7 @@ void DialogueSystem::update(float deltaTime)
 		{
 			if (r.text[i] != ' ')
 				temp_str.push_back(r.text[i]);
-			else
+			if(r.text[i] == ' ' || i == r.text.size() - 1)
 			{
 				str_list.push_back(temp_str);
 				temp_str.clear();
@@ -101,7 +101,7 @@ void DialogueSystem::GetNextMessage()
 		{
 			if (r.text[i] != ' ')
 				temp_str.push_back(r.text[i]);
-			else
+			if (r.text[i] == ' ' || i == r.text.size() - 1)
 			{
 				str_list.push_back(temp_str);
 				temp_str.clear();

@@ -132,8 +132,10 @@ void Surface::PrintScaled(char* a_String, int x1, int y1, float scaleX, float sc
 	for (int i = 0; i < (int)strlen(a_String); i++)
 	{
 		if (a_String[i] != ' ')
+		{
 			temp_str.push_back(a_String[i]);
-		else
+		}
+		if(a_String[i] == ' ' || i == (int)strlen(a_String) - 1)
 		{
 			str_list.push_back(temp_str);
 			temp_str.clear();

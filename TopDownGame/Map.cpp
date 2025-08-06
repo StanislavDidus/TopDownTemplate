@@ -1,9 +1,9 @@
 ﻿#include "Map.h"
 
-Map::Map(Tmpl8::Sprite* sprite, const std::unordered_map<std::string, std::shared_ptr<Tmpl8::Sprite>>& sprites, const std::string& path) : currentLevel(1), sprite(sprite), sprites(sprites)
+Map::Map(Tmpl8::Sprite* sprite, const std::unordered_map<std::string, std::shared_ptr<Tmpl8::Sprite>>& sprites, const std::string& path) : currentLevel(4), sprite(sprite), sprites(sprites)
 {
 	ldtkMap.loadFromFile(path);
-	getEntities(currentLevel);
+	initEntities(currentLevel);
 }
 
 Map::~Map()
@@ -109,6 +109,7 @@ void Map::initEntities(int level)
 
 		auto& health = e.getField<float>("Health").value();
 		auto& damage = e.getField<float>("Damage").value();
+		auto& attackSpeed = e.getField<float>("AttackSpeed").value();
 		auto& money = e.getField<float>("Money").value();
 		auto& exp = e.getField<float>("Exp").value();
 
@@ -118,6 +119,6 @@ void Map::initEntities(int level)
 				  << "Money: " << money << "\n"
 				  << "Exp: " << exp << "\n";
 
-		entities.push_back(std::make_shared<Wolf>(sprites["Wolf"].get(), pos.x * 2, pos.y * 2, size.x * 3, size.y * 3, this));
+		entities.push_back(std::make_shared<Enemy>(sprites["Wolf"].get(), pos.x * 2, pos.y * 2, size.x * 3, size.y * 3, this, health, damage, attackSpeed, money, exp));
 	}
 }
