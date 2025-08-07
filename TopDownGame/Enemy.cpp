@@ -10,9 +10,18 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Attack(std::shared_ptr<Entity> e)
+void Enemy::Attack(std::shared_ptr<Entity> e, float timer)
 {
-	e->Hit(damage);
+	if (timer - lastAttackTime >= attackSpeed)
+	{
+		lastAttackTime = timer;
+		e->Hit(damage);
+	}
+}
+
+int Enemy::getDps()
+{
+	return damage / attackSpeed;
 }
 
 void Enemy::update(float deltaTime)

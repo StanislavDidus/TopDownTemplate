@@ -107,11 +107,11 @@ void Map::initEntities(int level)
 		const auto& path = e.getTexturePath();
 		const auto& name = e.getName();
 
-		auto& health = e.getField<float>("Health").value();
-		auto& damage = e.getField<float>("Damage").value();
+		auto& health = e.getField<int>("Health").value();
+		auto& damage = e.getField<int>("Damage").value();
 		auto& attackSpeed = e.getField<float>("AttackSpeed").value();
-		auto& money = e.getField<float>("Money").value();
-		auto& exp = e.getField<float>("Exp").value();
+		auto& money = e.getField<int>("Money").value();
+		auto& exp = e.getField<int>("Exp").value();
 
 		std::cout << "Entity's stats: \n"
 				  << "Health: " << health << "\n"

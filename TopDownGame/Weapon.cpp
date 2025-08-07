@@ -13,7 +13,16 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::Attack(std::shared_ptr<Entity> entity)
+void Weapon::Attack(std::shared_ptr<Entity> entity, float timer)
 {
-	entity->Hit(damage);
+	if (timer - lastAttackTime >= attackSpeed)
+	{
+		lastAttackTime = timer;
+		entity->Hit(damage);
+	}
+}
+
+int Weapon::getDps()
+{
+	return damage / attackSpeed;
 }

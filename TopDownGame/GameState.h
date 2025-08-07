@@ -43,11 +43,15 @@ struct ExploringState : public GameState
 
 struct BattleState : public GameState
 {
-	BattleState(std::vector<std::shared_ptr<Enemy>> enemies) : enemies(enemies) {}
+	BattleState(std::vector<std::shared_ptr<Enemy>> enemies) : enemies(enemies) 
+	{
+		timer = 0.f;
+		playerDpsDamage = 0.f;
+	}
 
 	void onEnter(Tmpl8::Game& game)  override
 	{
-		timer = 0.f;
+		
 		
 		//Get all weapons from the player's inventory
 		const auto& items = game.player->getInventory()->allItems();
@@ -57,6 +61,11 @@ struct BattleState : public GameState
 			const auto& w = std::dynamic_pointer_cast<Weapon>(i);
 			if (w != nullptr)
 				weapons.push_back(w);
+		}
+
+		for (const auto& w : weapons)
+		{
+			playerDpsDamage += w->getDps();
 		}
 	}
 	void onUpdate(Tmpl8::Game& game, float deltaTime)  override
@@ -71,37 +80,27 @@ struct BattleState : public GameState
 			//Player attacks
 			for (const auto& w : weapons)
 			{
-				if (timer >= w->attackSpeed + w->lastAttackTime)
+				w->Attack(e, timer);
+
+				if (e->getHp() <= 0)
 				{
-					w->lastAttackTime = timer;
-					w->Attack(e);
+					//Entity is dead
+					game.player->giveMoney(e->getMoney());
+					game.player->giveExp(e->getExp());
 
-					std::cout << e->getHp() << "\n";
-
-					if (e->getHp() <= 0)
-					{
-						//Entity is dead
-						game.player->giveMoney(e->getMoney());
-						game.player->giveExp(e->getExp());
-
-						enemies.erase(enemies.begin());
-					}
+					enemies.erase(enemies.begin());
 				}
 			}
 
 			for (const auto& e : enemies)
-			{
-				if (timer >= e->attackSpeed + e->lastAttackTime)
-				{ 
-					e->lastAttackTime = timer;
-					e->Attack(game.player);
+			{;
+				e->Attack(game.player, timer);
 
-					if (game.player->getHp() <= 0)
-					{
-						//Game is over
-						std::cout << "Game Over\n";
-						std::exit(0);
-					}
+				if (game.player->getHp() <= 0)
+				{
+					//Game is over
+					std::cout << "Game Over\n";
+					std::exit(0);
 				}
 			}
 		}
@@ -109,6 +108,8 @@ struct BattleState : public GameState
 		if (enemies.size() == 0)
 		{
 			game.setState(std::make_shared<ExploringState>());
+
+			std::cout << game.player->getMoney() << ", " << game.player->getExp() << "\n";
 		}
 	}
 	void onRender(Tmpl8::Game& game, Tmpl8::Surface* screen) override
@@ -116,26 +117,22 @@ struct BattleState : public GameState
 		game.sprites["BattleMenu"]->Draw(screen, 32, 32);
 		game.sprites["Player"]->DrawScaled(200 - 72 / 2, 256 - 108 / 2, 72, 108, screen);
 
-		//Draw Statistics
-		std::string hp, dps;
-		hp += std::to_string(game.player->getHp());
-		dps += std::to_string(10);
-
+		//Draw Statistics for player
 		float scale = 3.f;
-
 		float charWidth = 5 * scale;
-		float spacing = 5 * scale;
-
-		int midPoint = (200 - 72 / 2) + (72 / 2);
-		
 		int textHeight = 5.f * scale;
 
+		std::string playerHp, playerDps;
+		playerHp += std::to_string(game.player->getHp());
+		playerDps += std::to_string((int)playerDpsDamage);
+		int playerMidPoint = (200 - 72 / 2) + (72 / 2);
+		
 		//HP
-		int textWidth1 = hp.length() * charWidth;
-		screen->PrintScaled(&hp[0], midPoint - (textWidth1 / 2), 175 - textHeight / 2, scale, scale, 800, Tmpl8::RedMask);
+		int textWidth1 = playerHp.length() * charWidth;
+		screen->PrintScaled(&playerHp[0], playerMidPoint - (textWidth1 / 2), 175 - textHeight / 2, scale, scale, 800, Tmpl8::RedMask);
 		//DPS
-		int textWidth2 = dps.length() * charWidth;
-		screen->PrintScaled(&dps[0], midPoint - (textWidth2 / 2), 200 - textHeight / 2, scale, scale, 800, Tmpl8::Pixel(0xFFFFFF));
+		int textWidth2 = playerDps.length() * charWidth;
+		screen->PrintScaled(&playerDps[0], playerMidPoint - (textWidth2 / 2), 200 - textHeight / 2, scale, scale, 800, Tmpl8::Pixel(0xFFFFFF));
 
 		int index = 0;
 		for (auto& e : enemies)
@@ -147,6 +144,20 @@ struct BattleState : public GameState
 			game.sprites["Wolf"]->DrawScaled(pos.x - sizeX / 2, pos.y - sizeY / 2, sizeX, sizeY, screen);
 
 			index++;
+
+			//Draw enemy statistics
+			std::string enemyHp, enemyDps;
+			
+			enemyHp += std::to_string(e->getHp());
+			enemyDps += std::to_string(e->getDps());
+			int enemyMidPoint = (pos.x - sizeX / 2) + (sizeX / 2);
+
+			//HP
+			int enemyTextWidth1 = enemyHp.length() * charWidth;
+			screen->PrintScaled(&enemyHp[0], enemyMidPoint - (enemyTextWidth1 / 2), 175 - textHeight / 2, scale, scale, 800, Tmpl8::RedMask);
+			//DPS
+			int enemyTextWidth2 = enemyDps.length() * charWidth;
+			screen->PrintScaled(&enemyDps[0], enemyMidPoint - (enemyTextWidth2 / 2), 200 - textHeight / 2, scale, scale, 800, Tmpl8::Pixel(0xFFFFFF));
 		}
 	}
 	void onExit(Tmpl8::Game& game)  override
@@ -155,6 +166,7 @@ struct BattleState : public GameState
 	}
 
 	float timer;
+	float playerDpsDamage;
 
 	std::vector<std::shared_ptr<Weapon>> weapons;
 

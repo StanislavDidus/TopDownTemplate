@@ -51,7 +51,7 @@ namespace Tmpl8
 		//13,6 14,8
 
 		//Chest
-		std::shared_ptr<Weapon> sword = std::make_shared<Weapon>("assets/sword.png", 15, 0.5f, 50);
+		std::shared_ptr<Weapon> sword = std::make_shared<Weapon>("assets/sword.png", 25, 0.5f, 50);
 		triggers.push_back(std::make_shared<Trigger>(20 * 32, 10 * 32, 64, 32, 0, [this, sword]() {player->getInventory()->addItem(sword); }, tileMap->GetLevel()));
 		levelTriggerManager->AddTrigger(24 * 32, 0, 32, 320, 32, 5 * 32, 2, 4);
 		levelTriggerManager->AddTrigger(0, 0, 32, 320, 23*32, 5 * 32, 4, 2);
