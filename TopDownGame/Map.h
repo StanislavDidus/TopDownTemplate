@@ -19,16 +19,15 @@ public:
 	void Draw(Tmpl8::Surface* screen);
 	const ldtk::Level& GetLevelRef(int level);
 
-	void SetLevel(int level);
-	int& GetLevel();
-
-	std::vector<std::shared_ptr<Entity>> getEntities();	
+	std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>>& getEnemies();
 
 	void update(float deltaTime);
 	void render(Tmpl8::Surface* screen);
-private:
-	int currentLevel;
 
+	bool CheckCollision(int px, int py);
+
+	static int currentLevel;
+private:
 	Tmpl8::Sprite* sprite;
 	std::unordered_map<std::string, std::shared_ptr<Tmpl8::Sprite>> sprites;
 
@@ -37,11 +36,11 @@ private:
 	std::vector<std::string> originMap;
 	std::vector<std::vector<std::string>> levels;
 
-	std::vector<std::shared_ptr<Entity>> entities;
+	std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>> enemies;
 
 	int mapWidth , mapHeight;
 	int levelWidth, levelHeight;
 
-	void initEntities(int level);
+	void initEnemies();
 };
 

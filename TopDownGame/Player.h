@@ -30,8 +30,6 @@ public:
 
 	void update(float deltaTime) override;
 private:
-	bool CheckCollision(int px, int py);
-
 	std::shared_ptr<Inventory> inventory;
 
 	int fx, fy;

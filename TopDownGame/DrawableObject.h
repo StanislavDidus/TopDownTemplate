@@ -9,15 +9,17 @@
 class DrawableObject
 {
 public:
-	DrawableObject(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy) : sprite(sprite), px(px), py(py), sx(sx), sy(sy) {}
+	DrawableObject(Tmpl8::Sprite* sprite, float px, float py, int sx, int sy) : sprite(sprite), px(px), py(py), sx(sx), sy(sy), flipped(false) {}
 	virtual ~DrawableObject() {}
 
 	virtual void update(float deltaTime) {}
-	virtual void render(Tmpl8::Surface* screen) { if(sprite != nullptr) sprite->DrawScaled(px, py, sx, sy, screen); }
+	virtual void render(Tmpl8::Surface* screen) { if(sprite != nullptr) sprite->DrawScaled(static_cast<int>(px), static_cast<int>(py), sx, sy, screen, flipped); }
 
-	Vec2i GetPosition() { return { px, py }; }
+	Vec2f GetPosition() { return { px, py }; }
 	Vec2i GetSize() { return { sx, sy }; }
 protected:
-	int px, py, sx, sy;
+	float px, py;
+	int sx, sy;
 	Tmpl8::Sprite* sprite;
+	bool flipped;
 };

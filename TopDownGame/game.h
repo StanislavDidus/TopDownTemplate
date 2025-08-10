@@ -8,6 +8,7 @@
 #include "surface.h"
 #include <LDtkLoader/Project.hpp>
 #include "DialogueSystem.h"
+#include "EventBus.h"
 #include <set>
 #include <vector>
 #include <map>
@@ -72,6 +73,7 @@ private:
 	void initUI();
 	void initMap();
 	void initPlayer();
+	void initEventBus();
 
 	void update(float deltaTime);
 	void render(Tmpl8::Surface* screen);
@@ -89,6 +91,8 @@ private:
 	InteractableObject* interactableObjectsInRange;
 	int interactDistance = 100;
 	bool isInteraction = false;
+
+	float reactBattleTime;
 };
 
 }; // namespace Tmpl8

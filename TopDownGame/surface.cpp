@@ -555,16 +555,16 @@ void Sprite::Draw( Surface* a_Target, int a_X, int a_Y )
 	}
 }
 
-void Sprite::DrawScaled( int a_X, int a_Y, int a_Width, int a_Height, Surface* a_Target )
+void Sprite::DrawScaled(int a_X, int a_Y, int a_Width, int a_Height, Surface* a_Target, bool flipped)
 {
 	if ((a_Width == 0) || (a_Height == 0)) return;
-	
 
 	for (int x = 0; x < a_Width; x++) for (int y = 0; y < a_Height; y++)
 	{
 		if (a_X + x < 0 || a_X + x > ScreenWidth || a_Y + y < 0 || a_Y + y > ScreenHeight) continue;
 		
-		int u = (int)((float)x * ((float)m_Width / (float)a_Width));
+		int srcX = flipped ? (a_Width - x - 1) : x;
+		int u = (int)(srcX * (float(m_Width) / a_Width));
 		int v = (int)((float)y * ((float)m_Height / (float)a_Height));
 		Pixel color = GetBuffer()[u + v * m_Pitch + m_CurrentFrame * m_Width];
 		if (color & 0xffffff) a_Target->GetBuffer()[a_X + x + ((a_Y + y) * a_Target->GetPitch())] = color;

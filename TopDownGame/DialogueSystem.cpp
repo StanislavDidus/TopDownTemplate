@@ -14,33 +14,15 @@ DialogueSystem::~DialogueSystem()
 void DialogueSystem::update(float deltaTime)
 {
 	if (replicQueue.size() > 0 && currentText.empty())
-	{
-		Replic r = replicQueue.front();
-
-		//Divide words from one string
-		std::vector<std::string> str_list;
-		std::string temp_str;
-		for (int i = 0; i < r.text.size(); i++)
-		{
-			if (r.text[i] != ' ')
-				temp_str.push_back(r.text[i]);
-			if(r.text[i] == ' ' || i == r.text.size() - 1)
-			{
-				str_list.push_back(temp_str);
-				temp_str.clear();
-			}
-		}
-
-		currentText = str_list;
-		time = r.time;
-	}
+		GetNextMessage();
 	else if (!currentText.empty())
 	{
 		timer += deltaTime;
-		//std::cout << timer << "\n";
 		isActive = true;
 		if (timer >= time)
-			GetNextMessage();
+		{
+			Skip();
+		}
 	}
 
 
@@ -81,15 +63,6 @@ void DialogueSystem::GetNextMessage()
 {
 	if (replicQueue.size() > 0)
 	{
-		replicQueue.pop();
-		currentText.clear();
-		time = 0.f;
-		timer = 0.f;
-		isActive = false;
-	}
-
-	if (replicQueue.size() > 0)
-	{
 		isActive = true;
 		
 		Replic r = replicQueue.front();
@@ -110,5 +83,17 @@ void DialogueSystem::GetNextMessage()
 
 		currentText = str_list;
 		time = r.time;
+	}
+}
+
+void DialogueSystem::Skip()
+{
+	if (replicQueue.size() > 0)
+	{
+		replicQueue.pop();
+		currentText.clear();
+		time = 0.f;
+		timer = 0.f;
+		isActive = false;
 	}
 }

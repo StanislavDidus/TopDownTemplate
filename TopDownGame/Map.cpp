@@ -1,9 +1,11 @@
 ﻿#include "Map.h"
 
-Map::Map(Tmpl8::Sprite* sprite, const std::unordered_map<std::string, std::shared_ptr<Tmpl8::Sprite>>& sprites, const std::string& path) : currentLevel(4), sprite(sprite), sprites(sprites)
+int Map::currentLevel = 4;
+
+Map::Map(Tmpl8::Sprite* sprite, const std::unordered_map<std::string, std::shared_ptr<Tmpl8::Sprite>>& sprites, const std::string& path) : sprite(sprite), sprites(sprites)
 {
 	ldtkMap.loadFromFile(path);
-	initEntities(currentLevel);
+	initEnemies();
 }
 
 Map::~Map()
@@ -60,65 +62,81 @@ const ldtk::Level& Map::GetLevelRef(int level)
 	return world.allLevels()[level];
 }
 
-void Map::SetLevel(int level)
+std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>>& Map::getEnemies()
 {
-	currentLevel = level;
-	initEntities(currentLevel);
+	return enemies;
 }
 
-int& Map::GetLevel()
+bool Map::CheckCollision(int px, int py)
 {
-	return currentLevel;
-}
+	const auto& level = GetLevelRef(Map::currentLevel);
+	const auto& layer = level.getLayer("Col");
 
-std::vector<std::shared_ptr<Entity>> Map::getEntities()
-{
-	return entities;
+	for (const auto intPoint : layer.getIntGridValPositions(1))
+	{
+		int tx = px / 32;
+		int ty = py / 32;
+
+		if (tx == intPoint.x && ty == intPoint.y)
+			return false;
+	}
+	return true;
 }
 
 void Map::update(float deltaTime)
 {
+	for (const auto& enemy : enemies[Map::currentLevel])
+	{
+		enemy->update(deltaTime);
+	}
 }
 
 void Map::render(Tmpl8::Surface* screen)
 {
 	Draw(screen);
 	
-	for (const auto& e : entities)
+	for (const auto& enemy : enemies[Map::currentLevel])
 	{
-		e->render(screen);
+		enemy->render(screen);
 	}
+
 }
 
-void Map::initEntities(int level)
+void Map::initEnemies()
 {
-	entities.clear();
-	
 	const auto& world = ldtkMap.getWorld("");
 	const auto& tileSet = world.getTileset("Tiles");
-	const auto& cLevel = world.allLevels()[level];
-	const auto& layer = cLevel.getLayer("Entities");
 
-	for (const ldtk::Entity& e : layer.getEntitiesByName("Wolf"))
+	for (int i = 0; i < world.allLevels().size(); i++)
 	{
-		const auto& pos = e.getPosition();
-		const auto& size = e.getSize();
-		const auto& rect = e.getTextureRect();
-		const auto& path = e.getTexturePath();
-		const auto& name = e.getName();
+		const auto& cLevel = world.allLevels()[i];
+		const auto& layer = cLevel.getLayer("Entities");
 
-		auto& health = e.getField<int>("Health").value();
-		auto& damage = e.getField<int>("Damage").value();
-		auto& attackSpeed = e.getField<float>("AttackSpeed").value();
-		auto& money = e.getField<int>("Money").value();
-		auto& exp = e.getField<int>("Exp").value();
+		std::vector<std::shared_ptr<Enemy>> enemiesOnLevel;
+		for (const ldtk::Entity& e : layer.getEntitiesByName("Wolf"))
+		{
+			const auto& pos = e.getPosition();
+			const auto& size = e.getSize();
+			const auto& rect = e.getTextureRect();
+			const auto& path = e.getTexturePath();
+			const auto& name = e.getName();
 
-		std::cout << "Entity's stats: \n"
-				  << "Health: " << health << "\n"
-				  << "Damage: " << damage << "\n"
-				  << "Money: " << money << "\n"
-				  << "Exp: " << exp << "\n";
+			auto& health = e.getField<int>("Health").value();
+			auto& damage = e.getField<int>("Damage").value();
+			auto& attackSpeed = e.getField<float>("AttackSpeed").value();
+			auto& money = e.getField<int>("Money").value();
+			auto& exp = e.getField<int>("Exp").value();
 
-		entities.push_back(std::make_shared<Enemy>(sprites["Wolf"].get(), pos.x * 2, pos.y * 2, size.x * 3, size.y * 3, this, health, damage, attackSpeed, money, exp));
+			std::cout << "Entity's stats: \n"
+				<< "Health: " << health << "\n"
+				<< "Damage: " << damage << "\n"
+				<< "Money: " << money << "\n"
+				<< "Exp: " << exp << "\n";
+
+			
+			enemiesOnLevel.push_back(std::make_shared<Enemy>(sprites["Wolf"].get(), pos.x * 2, pos.y * 2, size.x * 3, size.y * 3, this, i, health, damage, attackSpeed, money, exp));
+		}
+
+		enemies[i] = enemiesOnLevel;
 	}
 }

@@ -12,8 +12,8 @@
 class Trigger : public InteractableObject
 {
 public:
-	Trigger(int px, int py, int sx, int sy, int neededLevel, std::function<void()> func, int& currentLevel) : InteractableObject(nullptr, px, py, sx, sy),
-		neededLevel(neededLevel), func(func), currentLevel(currentLevel) {
+	Trigger(int px, int py, int sx, int sy, int neededLevel, std::function<void()> func) : InteractableObject(nullptr, px, py, sx, sy),
+		neededLevel(neededLevel), func(func) {
 	}
 
 	void interact(Entity* entity) override
@@ -26,7 +26,6 @@ public:
 
 	int neededLevel;
 private:
-	int& currentLevel;
 	std::function<void()> func;
 };
 
@@ -40,7 +39,7 @@ public:
 
 	bool CheckCollision(Map* map, Entity* entity)
 	{
-		if (map->GetLevel() != neededLevel)
+		if (Map::currentLevel != neededLevel)
 			return false;
 
 		int entityX2 = entity->GetPosition().x + entity->GetSize().x;
@@ -59,7 +58,7 @@ public:
 			if (isActive)
 			{
 				entity->SetPosition(nx, ny);
-				map->SetLevel(nextLevel);
+				Map::currentLevel = nextLevel;
 				return true;
 			}
 		}

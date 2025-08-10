@@ -24,6 +24,7 @@ public:
 	void showDialogue(const Dialogue& d);
 
 	void GetNextMessage();
+	void Skip();
 
 	bool isActive;
 private:

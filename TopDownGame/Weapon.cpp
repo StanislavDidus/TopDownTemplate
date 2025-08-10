@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include "EventBus.h"
 
 Weapon::Weapon(const std::string & iconPath, int damage, float attackSpeed, int value) : Item(iconPath, value), damage(damage), attackSpeed(attackSpeed), lastAttackTime(0.f)
 {
@@ -19,6 +20,8 @@ void Weapon::Attack(std::shared_ptr<Entity> entity, float timer)
 	{
 		lastAttackTime = timer;
 		entity->Hit(damage);
+
+		EventBus::Get().Push(EventType::ATTACK, damage);
 	}
 }
 

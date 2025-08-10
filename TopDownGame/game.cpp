@@ -10,7 +10,7 @@ namespace Tmpl8
 		if(currentState != nullptr)
 			currentState->onExit(*this);
 
-		if (state != nullptr)
+		if (state != nullptr && currentState != state)
 			currentState = std::move(state);
 
 		currentState->onEnter(*this);
@@ -32,6 +32,9 @@ namespace Tmpl8
 
 		surfaces["Player"] = new Surface("assets/player.png");
 		sprites["Player"] = std::make_shared<Sprite>(surfaces["Player"], 1);
+
+		surfaces["StunMarker"] = new Surface("assets/stunMarker.png");
+		sprites["StunMarker"] = std::make_shared<Sprite>(surfaces["StunMarker"], 1);
 	}
 
 	void Game::initLevelTriggers()
@@ -46,13 +49,13 @@ namespace Tmpl8
 		levelTriggerManager->AddTrigger(11 * 32, 512 - 5, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 0, 2, 1);
 
 		//TeleportTriggers
-		triggers.push_back(std::make_shared<Trigger>(13 * 32, 6 * 32, 32, 32 * 3, 2, [this]() {player->SetPosition(14 * 32, 512 - 5 * 32); tileMap->SetLevel(3); }, tileMap->GetLevel()));
+		triggers.push_back(std::make_shared<Trigger>(13 * 32, 6 * 32, 32, 32 * 3, 2, [this]() {player->SetPosition(14 * 32, 512 - 5 * 32); Map::currentLevel = 3; }));
 		levelTriggerManager->AddTrigger(14*32, 512 - 3*32, 2*32, 32, 13*32, 8*32, 3, 2);
 		//13,6 14,8
 
 		//Chest
-		std::shared_ptr<Weapon> sword = std::make_shared<Weapon>("assets/sword.png", 25, 0.5f, 50);
-		triggers.push_back(std::make_shared<Trigger>(20 * 32, 10 * 32, 64, 32, 0, [this, sword]() {player->getInventory()->addItem(sword); }, tileMap->GetLevel()));
+		std::shared_ptr<Weapon> sword = std::make_shared<Weapon>("assets/sword.png", 50, 1.f, 50);
+		triggers.push_back(std::make_shared<Trigger>(20 * 32, 10 * 32, 64, 32, 0, [this, sword]() {player->getInventory()->addItem(sword); }));
 		levelTriggerManager->AddTrigger(24 * 32, 0, 32, 320, 32, 5 * 32, 2, 4);
 		levelTriggerManager->AddTrigger(0, 0, 32, 320, 23*32, 5 * 32, 4, 2);
 
@@ -61,9 +64,9 @@ namespace Tmpl8
 
 	void Game::initNPCs()
 	{
-		npcs.push_back(std::make_shared<NPC>(&npcSprite, 500, 215, 48, 72, 1, tileMap->GetLevel()));
+		npcs.push_back(std::make_shared<NPC>(&npcSprite, 500, 215, 48, 72, 1));
 
-		npcs.push_back(std::make_shared<NPC>(&npcSprite, 15*32, 4*32, 48, 72, 3, tileMap->GetLevel()));
+		npcs.push_back(std::make_shared<NPC>(&npcSprite, 15*32, 4*32, 48, 72, 3));
 	}
 
 	void Game::initUI()
@@ -97,10 +100,18 @@ namespace Tmpl8
 		player = std::make_shared<Player>(sprites["Player"].get(), 200, 200, 48, 72, tileMap.get());
 	}
 
+	void Game::initEventBus()
+	{
+		EventBus::Get();
+	}
+
 	void Game::Init()
 	{
+		reactBattleTime = 1.5f;
+		
 		setState(std::make_shared<ExploringState>());
 		
+		initEventBus();
 		initSurfaces();
 		initMap();
 		initNPCs();
@@ -121,6 +132,7 @@ namespace Tmpl8
 		deltaTime /= 1000.f;
 		
 		player->update(deltaTime);
+		tileMap->update(deltaTime);
 
 		currentState->onUpdate(*this, deltaTime);
 
@@ -190,30 +202,45 @@ namespace Tmpl8
 			if (key == ' ' && !wasButtonPresseed(' '))
 			{
 				//Skip dialogue
-				dialogueSystem->GetNextMessage();
+				dialogueSystem->Skip();
 			}
 		}
 	}
 
 	void Game::Attack()
 	{
-		for (auto& e : tileMap->getEntities())
+		if (std::dynamic_pointer_cast<BattleState>(currentState) != nullptr)
+			return;
+
+		std::vector<std::weak_ptr<Enemy>> enemiesAttack;
+		bool isHit = false;
+		//Check if at least one enemy is hit
+		for (auto& enemy : tileMap->getEnemies()[Map::currentLevel])
 		{
-			std::shared_ptr<Enemy> enemy = std::dynamic_pointer_cast<Enemy>(e);
-			if (enemy != nullptr)
+			int dx = enemy->GetPosition().x - player->GetPosition().x;
+			int dy = enemy->GetPosition().y - player->GetPosition().y;
+
+			int squareDistance = dx * dx + dy * dy;
+			int squareInteractDistance = interactDistance * interactDistance;
+
+			if (squareDistance < squareInteractDistance)
 			{
-				int dx = enemy->GetPosition().x - player->GetPosition().x;
-				int dy = enemy->GetPosition().y - player->GetPosition().y;
-
-				int squareDistance = dx * dx + dy * dy;
-				int squareInteractDistance = interactDistance * interactDistance;
-
-				if (squareDistance < squareInteractDistance)
-				{
-					//Start Battle
-					setState(std::make_shared<BattleState>(std::vector<std::shared_ptr<Enemy>>{enemy}));
-				}
+				isHit = true;
+				break;
 			}
+		}
+		//Get all enemies from the level
+		if (isHit)
+		{
+			for (auto& enemy : tileMap->getEnemies()[Map::currentLevel])
+			{
+				enemiesAttack.push_back(enemy);
+			}
+		}
+		//Start Battle
+		if (!enemiesAttack.empty())
+		{
+			setState(std::make_shared<BattleState>(enemiesAttack, tileMap->getEnemies()[Map::currentLevel], true));
 		}
 	}
 
@@ -232,7 +259,7 @@ namespace Tmpl8
 				NPC* n = dynamic_cast<NPC*>(obj);
 				if (n != nullptr)
 				{
-					if (n->neededLevel == tileMap->GetLevel())
+					if (n->neededLevel == Map::currentLevel)
 					{
 						if (!n->dialogueQueue.empty())
 						{
@@ -245,7 +272,7 @@ namespace Tmpl8
 				Trigger* t = dynamic_cast<Trigger*>(obj);
 				if (t != nullptr)
 				{
-					if (t->neededLevel == tileMap->GetLevel())
+					if (t->neededLevel == Map::currentLevel)
 					{
 						interactableObjectsInRange = obj;
 						isInteraction = true;

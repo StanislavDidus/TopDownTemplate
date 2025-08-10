@@ -61,27 +61,11 @@ void Player::update(float deltaTime)
 	int ny = py + fy;
 	fx = 0, fy = 0;
 
-	if (CheckCollision(nx, py + 36) && CheckCollision(nx + sx, py + 36) && CheckCollision(nx, py + sy) && CheckCollision(nx + sx, py + sy))
+	if (map->CheckCollision(nx, py + 36) && map->CheckCollision(nx + sx, py + 36) && map->CheckCollision(nx, py + sy) && map->CheckCollision(nx + sx, py + sy))
 		px = nx;
-	if (CheckCollision(px, ny + 36) && CheckCollision(px + sx, ny + 36) && CheckCollision(px, ny + sy) && CheckCollision(px + sx, ny + sy))
+	if (map->CheckCollision(px, ny + 36) && map->CheckCollision(px + sx, ny + 36) && map->CheckCollision(px, ny + sy) && map->CheckCollision(px + sx, ny + sy))
 		py = ny;
 
-	px = std::min(std::max(px, 0), 800-48);
-	py = std::min(std::max(py, 0 - 24), 500 - 48);
-}
-
-bool Player::CheckCollision(int px, int py)
-{
-	const auto& level = map->GetLevelRef(map->GetLevel());
-	const auto& layer = level.getLayer("Col");
-	
-	for (const auto intPoint : layer.getIntGridValPositions(1))
-	{
-		int tx = px / 32;
-		int ty = py / 32;
-
-		if (tx == intPoint.x && ty == intPoint.y)
-			return false;
-	}
-	return true;
+	px = std::min(std::max(static_cast<int>(px), 0), 800-48);
+	py = std::min(std::max(static_cast<int>(py), 0 - 24), 500 - 48);
 }

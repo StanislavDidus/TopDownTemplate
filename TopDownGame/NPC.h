@@ -15,7 +15,7 @@ class DialogueSystem;
 class NPC : public InteractableObject
 {
 public:
-	NPC(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int neededLevel, int& currentLevel);
+	NPC(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int neededLevel);
 	virtual ~NPC();
 
 	void update(float deltaTime) override;
@@ -25,10 +25,5 @@ public:
 
 	std::queue<Dialogue> dialogueQueue;
 	int neededLevel;
-private:
-
-	int& currentLevel;
-
-	
 };
 
