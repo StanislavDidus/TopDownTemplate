@@ -4,12 +4,13 @@ project(MyProject)
 set(CMAKE_CXX_STANDARD 17)
 
 # Збираємо всі .cpp
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/*.cpp")
+file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # Вказуємо include шляхи
 include_directories(
   "${CMAKE_SOURCE_DIR}/SDL2/lib/SDL2-2.0.3/include"
   "${CMAKE_SOURCE_DIR}/SDL2/lib/FreeImage/inc"
+ "${CMAKE_SOURCE_DIR}/include"
 )
 
 # Додаємо імпортовані бібліотеки вручну
