@@ -29,7 +29,7 @@ namespace Tmpl8
 		sprites["BattleMenu"] = std::make_shared<Sprite>(surfaces["BattleMenu"], 1);
 
 		surfaces["Player"] = new Surface("assets/player.png");
-		sprites["Player"] = std::make_shared<Sprite>(surfaces["Player"], 1);
+		sprites["Player"] = std::make_shared<Sprite>(surfaces["Player"], 4);
 
 		surfaces["StunMarker"] = new Surface("assets/stunMarker.png");
 		sprites["StunMarker"] = std::make_shared<Sprite>(surfaces["StunMarker"], 1);
@@ -79,13 +79,13 @@ namespace Tmpl8
 		dialogues["Tavern1"] = std::make_shared<Dialogue>(std::vector<Replic>
 		{
 			{"Hi!, I guess you are looking for some work, aren't you?", 5.f},
-			{ "There is a wolf east of here, you will be rewarded if you kill him.", 5.f, [this]() {questSystem->completeQuest("Initiation"); questSystem->addNewQuest("Monster", "Kill the Wolf", [this]() {player->giveExp(100); }); } }
+			{ "There is a wolf east of here, you will be rewarded if you kill him.", 5.f, [this]() {questSystem->completeQuest("Initiation", "Work"); } }
 		});
 
 		dialogues["Tavern2"] = std::make_shared<Dialogue>(std::vector<Replic>
 		{
 			{"It seems like you have killed that wolf already.", 2.f},
-			{ "That wolf has killed many people, please, accept this gift from us.", 3.f }
+			{ "That wolf has killed many people, please, accept this gift from us.", 3.f, [this]() {questSystem->completeQuest("Initiation", "Reward"); } }
 		});
 	}
 
@@ -134,7 +134,7 @@ namespace Tmpl8
 				if (tag == 1)
 				{
 					npcs["Tavern"]->giveDialogue(dialogues["Tavern2"].get());
-					questSystem->completeQuest("Monster");
+					questSystem->completeQuest("Initiation", "Prey");
 				}
 			}));
 	}
@@ -143,7 +143,11 @@ namespace Tmpl8
 	{
 		questSystem = std::make_shared<QuestSystem>(sprites["QuestIcon"].get(), sprites["CQuestIcon"].get());
 
-		questSystem->addNewQuest("Initiation", "Find some work", [this]() {player->giveExp(50); });
+		auto& questLine = std::make_shared<QuestLine>("Initiation", "You are starving, you should find some work before you die of hunger", [&]() {player->giveExp(100); });
+		questLine->addQuest("Work", "Find some work");
+		questLine->addQuest("Prey", "Kill the wolf");
+		questLine->addQuest("Reward", "Collect your reward");
+		questSystem->addNewQuestLine(questLine);
 	}
 
 	void Game::Init()

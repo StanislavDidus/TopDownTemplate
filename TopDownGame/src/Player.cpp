@@ -13,21 +13,25 @@ Player::~Player()
 void Player::moveLeft()
 {
 	fx--;
+	sprite->SetFrame(3);
 }
 
 void Player::moveRight()
 {
 	fx++;
+	sprite->SetFrame(2);
 }
 
 void Player::moveUp()
 {
 	fy--;
+	sprite->SetFrame(1);
 }
 
 void Player::moveDown()
 {
 	fy++;
+	sprite->SetFrame(0);
 }
 
 int Clamp(int value, int min, int max)
@@ -52,7 +56,7 @@ void Player::giveMoney(int money)
 
 void Player::giveExp(int exp)
 {
-	this->exp = exp;
+	this->exp += exp;
 }
 
 void Player::update(float deltaTime)
@@ -68,4 +72,5 @@ void Player::update(float deltaTime)
 
 	px = std::min(std::max(static_cast<int>(px), 0), 800-48);
 	py = std::min(std::max(static_cast<int>(py), 0 - 24), 500 - 48);
+
 }

@@ -40,12 +40,15 @@ struct ExploringState : public GameState
 		for (auto& [name, npc] : game.npcs)
 			npc->render(screen);
 		if (Map::currentLevel == 2)
-			game.sprites["House"]->Draw(screen, 240, 0);
+			game.sprites["House"]->DrawScaled(240, 0, 320, 320, screen);
 		if (game.isInteraction)
 			screen->PrintScaled("(E)", (game.player->GetPosition().x + game.player->GetSize().x / 2) - 3 * 5 * 3 / 2, game.player->GetPosition().y - 20, 3.f, 3.f, 400, Tmpl8::Pixel(0xFFFFFF));
 		if (isEnemyNearby)
 			screen->PrintScaled("ATTACK!", (game.player->GetPosition().x + game.player->GetSize().x / 2) - 6 * 5 * 5 / 2, game.player->GetPosition().y - 50, 5.f, 5.f, 400, Tmpl8::Pixel(0xFFFFFF));
 		game.player->render(screen);
+
+		std::string hpBar = std::to_string(game.player->getHp()) + "/100";
+		game.screen->PrintScaled(&hpBar[0], 0, 0, 3.f, 3.f, 800, Tmpl8::RedMask);
 
 		game.questSystem->render(game.screen);
 	}
@@ -153,6 +156,8 @@ struct BattleState : public GameState
 
 		if(!advantage)
 			EventBus::Get().Push(EventType::STUNNED, 1);
+
+		game.sprites["Player"]->SetFrame(0);
 	}
 	void onUpdate(Tmpl8::Game& game, float deltaTime)  override
 	{
@@ -280,7 +285,7 @@ struct BattleState : public GameState
 				int sizeY = e->GetSize().y * 1.5f;
 				Tmpl8::vec2 pos = enemiesPositions[enemiesInBattle.size()][index];
 
-				game.sprites["Wolf"]->DrawScaled(pos.x - sizeX / 2, pos.y - sizeY / 2, sizeX, sizeY, screen);
+				game.sprites["Wolf"]->DrawScaled(pos.x - sizeX / 2, pos.y - sizeY / 2, sizeX, sizeY, screen, true);
 
 				index++;
 
