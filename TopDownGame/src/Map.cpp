@@ -5,7 +5,7 @@ int Map::currentLevel = 4;
 Map::Map(Tmpl8::Sprite* sprite, const std::unordered_map<std::string, std::shared_ptr<Tmpl8::Sprite>>& sprites, const std::string& path) : sprite(sprite), sprites(sprites)
 {
 	ldtkMap.loadFromFile(path);
-	initEnemies();
+	initEntities();
 }
 
 Map::~Map()
@@ -48,13 +48,13 @@ void Map::Draw(Tmpl8::Surface* screen)
 					Tmpl8::Pixel* c = row + sampleX;
 
 					//Remove transparent pixels
-					if(*c != Tmpl8::Pixel(0x000000))
+					if (*c != Tmpl8::Pixel(0x000000))
 						screen->Plot(dstX + i, dstY + j, *c);
 				}
 			}
 		}
 	}
-}	
+}
 
 const ldtk::Level& Map::GetLevelRef(int level)
 {
@@ -67,6 +67,11 @@ std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>>& Map::getEnemies()
 	return enemies;
 }
 
+std::shared_ptr<SquareGrid> Map::getGrid(int level)
+{
+	return grids[level];
+}
+
 bool Map::CheckCollision(int px, int py)
 {
 	const auto& level = GetLevelRef(Map::currentLevel);
@@ -74,13 +79,29 @@ bool Map::CheckCollision(int px, int py)
 
 	for (const auto intPoint : layer.getIntGridValPositions(1))
 	{
-		int tx = px / 32;
-		int ty = py / 32;
+		int tx = static_cast<int>(px) / 32;
+		int ty = static_cast<int>(py) / 32;
 
 		if (tx == intPoint.x && ty == intPoint.y)
 			return false;
 	}
 	return true;
+}
+
+bool Map::intersects(int px, int py, int width, int height)
+{
+	const auto& level = GetLevelRef(Map::currentLevel);
+	const auto& layer = level.getLayer("Col");
+
+	for (const auto intPoint : layer.getIntGridValPositions(1))
+	{
+		if (!(px + width <= intPoint.x * 32 ||
+			intPoint.x * 32 + 32 <= px ||
+			py + height <= intPoint.y * 32 ||
+			intPoint.y * 32 + 32 <= py))
+			return true;
+	}
+	return false;
 }
 
 void Map::update(float deltaTime)
@@ -94,7 +115,7 @@ void Map::update(float deltaTime)
 void Map::render(Tmpl8::Surface* screen)
 {
 	Draw(screen);
-	
+
 	for (const auto& enemy : enemies[Map::currentLevel])
 	{
 		enemy->render(screen);
@@ -102,7 +123,7 @@ void Map::render(Tmpl8::Surface* screen)
 
 }
 
-void Map::initEnemies()
+void Map::initEntities()
 {
 	const auto& world = ldtkMap.getWorld("");
 	const auto& tileSet = world.getTileset("Tiles");
@@ -111,33 +132,60 @@ void Map::initEnemies()
 	{
 		const auto& cLevel = world.allLevels()[i];
 		const auto& layer = cLevel.getLayer("Entities");
+		const auto& layerCol = cLevel.getLayer("Col");
 
 		std::vector<std::shared_ptr<Enemy>> enemiesOnLevel;
-		for (const ldtk::Entity& e : layer.getEntitiesByName("Wolf"))
-		{
-			const auto& pos = e.getPosition();
-			const auto& size = e.getSize();
-			const auto& rect = e.getTextureRect();
-			const auto& path = e.getTexturePath();
-			const auto& name = e.getName();
-
-			auto& health = e.getField<int>("Health").value();
-			auto& damage = e.getField<int>("Damage").value();
-			auto& attackSpeed = e.getField<float>("AttackSpeed").value();
-			auto& money = e.getField<int>("Money").value();
-			auto& exp = e.getField<int>("Exp").value();
-			auto& tag = e.getField<int>("QuestTag").value();
-
-			/*std::cout << "Entity's stats: \n"
-				<< "Health: " << health << "\n"
-				<< "Damage: " << damage << "\n"
-				<< "Money: " << money << "\n"
-				<< "Exp: " << exp << "\n";*/
-
-			
-			enemiesOnLevel.push_back(std::make_shared<Enemy>(sprites["Wolf"].get(), pos.x * 2, pos.y * 2, size.x * 3, size.y * 3, this, i, tag, health, damage, attackSpeed, money, exp));
-		}
+		
+		initGrid(layerCol, i);
+		initEnemyType(layer, i, "Wolf", enemiesOnLevel);
 
 		enemies[i] = enemiesOnLevel;
+
 	}
 }
+
+void Map::initEnemyType(const ldtk::Layer& layer, int level, const std::string& name, std::vector<std::shared_ptr<Enemy>>& enemiesOnLevel)
+{
+	for (const ldtk::Entity& e : layer.getEntitiesByName(name))
+	{
+		const auto& pos = e.getPosition();
+		const auto& size = e.getSize();
+		const auto& rect = e.getTextureRect();
+		const auto& path = e.getTexturePath();
+		const auto& name = e.getName();
+
+		auto& health = e.getField<int>("Health").value();
+		auto& damage = e.getField<int>("Damage").value();
+		auto& attackSpeed = e.getField<float>("AttackSpeed").value();
+		auto& money = e.getField<int>("Money").value();
+		auto& exp = e.getField<int>("Exp").value();
+		auto& tag = e.getField<int>("QuestTag").value();
+		auto& movementSpeed = e.getField<float>("MovementSpeed").value();
+
+
+		/*std::cout << "Entity's stats: \n"
+			<< "Health: " << health << "\n"
+			<< "Damage: " << damage << "\n"
+			<< "Money: " << money << "\n"
+			<< "Exp: " << exp << "\n";*/;
+
+		enemiesOnLevel.push_back(std::make_shared<Enemy>(sprites[name].get(), pos.x * 2, pos.y * 2, size.x * 3, size.y * 3, this, level, tag, health, damage, attackSpeed, money, exp, movementSpeed));
+	
+	}
+}
+
+void Map::initGrid(const ldtk::Layer& layer, int level)
+{
+	auto grid = std::make_shared<SquareGrid>(ScreenWidth, ScreenHeight);
+
+	for (const auto intPoint : layer.getIntGridValPositions(1))
+	{
+		grid->walls.insert(GridLocation{ intPoint.x * 32,intPoint.y * 32 });
+		grid->walls.insert(GridLocation{ intPoint.x * 32 + 16,intPoint.y * 32 });
+		grid->walls.insert(GridLocation{ intPoint.x * 32,intPoint.y * 32 + 16 });
+		grid->walls.insert(GridLocation{ intPoint.x * 32 + 16,intPoint.y * 32 + 16 });
+	}
+	grids[level] = grid;
+	//std::cout << level << ",  " << grids.size() << "\n";
+}
+ 

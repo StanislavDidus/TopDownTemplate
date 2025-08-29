@@ -201,6 +201,10 @@ namespace Tmpl8
 	{
 		update(deltaTime);
 		render(screen);
+
+		////FpsCounter
+		//std::string fps = std::to_string(1000.f / deltaTime);
+		//screen->PrintScaled(&fps[0], 0, 15, 3.f, 3.f, 800, Tmpl8::Pixel(0xFFFFFF));
 	}
 	void Game::updateControl()
 	{

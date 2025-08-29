@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include <map>
 
+
 class Map
 {
 public:
@@ -20,11 +21,13 @@ public:
 	const ldtk::Level& GetLevelRef(int level);
 
 	std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>>& getEnemies();
+    std::shared_ptr<SquareGrid> getGrid(int level);
 
 	void update(float deltaTime);
 	void render(Tmpl8::Surface* screen);
 
 	bool CheckCollision(int px, int py);
+	bool intersects(int px, int py, int width, int height);
 
 	static int currentLevel;
 private:
@@ -33,14 +36,17 @@ private:
 
 	ldtk::Project ldtkMap;
 
-	std::vector<std::string> originMap;
-	std::vector<std::vector<std::string>> levels;
+	//std::vector<std::string> originMap;
+	//std::vector<std::vector<std::string>> levels;
 
 	std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>> enemies;
+	std::unordered_map<int, std::shared_ptr<SquareGrid>> grids;
 
 	int mapWidth , mapHeight;
 	int levelWidth, levelHeight;
 
-	void initEnemies();
+	void initEntities();
+	void initEnemyType(const ldtk::Layer& layer, int level, const std::string& name, std::vector<std::shared_ptr<Enemy>>& enemiesOnLevel);
+	void initGrid(const ldtk::Layer& layer, int level);
 };
 

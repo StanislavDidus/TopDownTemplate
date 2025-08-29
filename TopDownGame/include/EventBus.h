@@ -27,10 +27,9 @@ public:
 		listeners[type].push_back(func);
 	}
 
-	void RemoveListener(EventType type, std::function<void(int)>& func)
+	void RemoveListener(EventType type)
 	{
-		//auto v = listeners[type];
-		//v.erase(std::remove_if(v.begin(), v.end(), [&](std::function<void(int)>& f) {if (f == func) return f; }));
+		listeners.erase(type);
 	}
 
 	void Push(EventType type, int value)

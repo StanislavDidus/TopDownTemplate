@@ -307,7 +307,10 @@ struct BattleState : public GameState
 	}
 	void onExit(Tmpl8::Game& game)  override
 	{
-
+		EventBus::Get().RemoveListener(EventType::ATTACK);
+		EventBus::Get().RemoveListener(EventType::HIT);
+		EventBus::Get().RemoveListener(EventType::HEALED);
+		EventBus::Get().RemoveListener(EventType::STUNNED);
 	}
 
 	void ShowMessage(std::string str, int value)

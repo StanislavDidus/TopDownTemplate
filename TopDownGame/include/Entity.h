@@ -9,7 +9,7 @@
 class Entity : public DrawableObject
 {
 public:
-	Entity(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int health, int money, int exp) :DrawableObject(sprite, px, py, sx, sy), maxHealth(health), currentHealth(maxHealth), money(money), exp(exp) {}
+	Entity(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int health, int money, int exp, float movementSpeed) :DrawableObject(sprite, px, py, sx, sy), maxHealth(health), currentHealth(maxHealth), money(money), exp(exp), movementSpeed(movementSpeed) {}
 	virtual ~Entity() {}
 
 	void Hit(int damage) { currentHealth -= damage; }
@@ -22,5 +22,6 @@ public:
 	void SetPosition(int x, int y) { px = x, py = y; }
 protected:
 	int maxHealth, currentHealth, money, exp;
+	float movementSpeed;
 };
 
