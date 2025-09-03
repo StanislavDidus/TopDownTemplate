@@ -1,6 +1,6 @@
 #include "DialogueSystem.h"
 
-DialogueSystem::DialogueSystem(Player* p, Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int outLine) : p(p), UIElement(sprite, px, py, sx, sy),
+DialogueSystem::DialogueSystem(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int outLine) : UIElement(sprite, px, py, sx, sy),
 isActive(false), timer(0.f), time(0.f), outLine(outLine)
 {
 
@@ -32,7 +32,7 @@ void DialogueSystem::render(Tmpl8::Surface* screen)
 {
 	if (isActive)
 	{
-		if (p->GetPosition().y + p->GetSize().y > 384)
+		/*if (p->GetPosition().y + p->GetSize().y > 384)
 		{
 			sprite->DrawScaled(px - outLine, 0, sx + outLine, sy + outLine, screen);
 			screen->PrintDialogue(currentText, px, outLine, 2.f, 2.f, sx, sy, Tmpl8::Pixel(0xFFFFFF));
@@ -41,7 +41,7 @@ void DialogueSystem::render(Tmpl8::Surface* screen)
 		{
 			sprite->DrawScaled(px - outLine, py - outLine, sx + outLine, sy + outLine, screen);
 			screen->PrintDialogue(currentText, px, py, 2.f, 2.f, sx, sy, Tmpl8::Pixel(0xFFFFFF));
-		}
+		}*/
 	}
 }
 

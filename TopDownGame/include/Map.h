@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include <map>
 
+#include "Coordinator.h"
 
 class Map
 {
@@ -36,17 +37,18 @@ private:
 
 	ldtk::Project ldtkMap;
 
-	//std::vector<std::string> originMap;
-	//std::vector<std::vector<std::string>> levels;
-
 	std::unordered_map<int, std::vector<std::shared_ptr<Enemy>>> enemies;
 	std::unordered_map<int, std::shared_ptr<SquareGrid>> grids;
 
-	int mapWidth , mapHeight;
-	int levelWidth, levelHeight;
+	/*int mapWidth , mapHeight;
+	int levelWidth, levelHeight;*/
 
-	void initEntities();
-	void initEnemyType(const ldtk::Layer& layer, int level, const std::string& name, std::vector<std::shared_ptr<Enemy>>& enemiesOnLevel);
+	std::vector<std::shared_ptr<LevelTrigger>> levelTriggers;
+
+	void initMap();
+	void initEntities(const ldtk::Layer& layer, int level, const std::string& name, std::vector<std::shared_ptr<Enemy>>& enemiesOnLevel);
 	void initGrid(const ldtk::Layer& layer, int level);
+	void initLevelTriggers(const ldtk::Layer& layer, int level);
+	void initCollisions(const ldtk::Layer& layer, int level);
 };
 

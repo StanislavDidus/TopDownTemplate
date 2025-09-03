@@ -26,7 +26,7 @@ struct ExploringState : public GameState
 	{
 		game.updateControl();
 		game.dialogueSystem->update(deltaTime);
-		game.levelTriggerManager->CheckCollision(game.player.get());
+		//game.levelTriggerManager->CheckCollision(game.player.get());
 		CheckCloseEncounters(game, deltaTime);
 		LookForEnemiesNearby(game);
 		game.CheckInteractions();

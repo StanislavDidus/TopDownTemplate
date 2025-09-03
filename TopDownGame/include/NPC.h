@@ -4,6 +4,7 @@
 #include "InteractableObject.h"
 #include "Vector.h"
 #include "Dialogue.h"
+#include "Map.h"
 
 #include <queue>
 #include "surface.h"

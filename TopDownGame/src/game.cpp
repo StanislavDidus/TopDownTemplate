@@ -1,17 +1,22 @@
 #include "game.h"
-#include "GameState.h"
+//#include "GameState.h"
 
 namespace Tmpl8
 {
 	void Game::setState(std::shared_ptr<GameState> state)
 	{
-		if (currentState != nullptr)
+		/*if (currentState != nullptr)
 			currentState->onExit(*this);
 
 		if (state != nullptr && currentState != state)
 			currentState = std::move(state);
 
-		currentState->onEnter(*this);
+		currentState->onEnter(*this);*/
+	}
+
+	void Game::initCoordinator()
+	{
+		Coordinator::Get().init();
 	}
 
 	void Game::initSurfaces()
@@ -41,31 +46,81 @@ namespace Tmpl8
 		sprites["CQuestIcon"] = std::make_shared<Sprite>(surfaces["CQuestIcon"], 1);
 	}
 
+	void Game::initComponents()
+	{
+		Coordinator::Get().registerComponent<Transform>();
+		Coordinator::Get().registerComponent<Renderable>();
+		Coordinator::Get().registerComponent<Physics>();
+		Coordinator::Get().registerComponent<ManagePlayerInputs>();
+		Coordinator::Get().registerComponent<AlwaysRender>();
+		Coordinator::Get().registerComponent<Level>();
+		Coordinator::Get().registerComponent<Collider>();
+		Coordinator::Get().registerComponent<Trigger>();
+		Coordinator::Get().registerComponent<LevelTrigger>();
+	}
+
+	void Game::initSystems()
+	{
+		auto& renderByLevelSystem = Coordinator::Get().registerSystem<RenderByLevelSystem>();
+		renderByLevelSystem->sprites = sprites;
+		Coordinator::Get().setSystemSignatures<RenderByLevelSystem, Transform, Renderable, Level>();
+
+		auto& alwaysRenderSystem = Coordinator::Get().registerSystem<AlwaysRenderSystem>();
+		alwaysRenderSystem->sprites = sprites;
+		Coordinator::Get().setSystemSignatures<AlwaysRenderSystem, Transform, Renderable, AlwaysRender>();
+
+		Coordinator::Get().registerSystem<HandlePlayerInputSystem>();
+		Coordinator::Get().setSystemSignatures<HandlePlayerInputSystem, ManagePlayerInputs, Transform, Physics>();
+
+		Coordinator::Get().registerSystem<EntityCollisionSystem>();
+		Coordinator::Get().setSystemSignatures<EntityCollisionSystem, Transform, Physics, Collider>();
+
+		Coordinator::Get().registerSystem<CollisionSystem>();
+		Coordinator::Get().setSystemSignatures<CollisionSystem, Transform, Collider>();
+
+		Coordinator::Get().registerSystem<LevelTriggerSystem>();
+		Coordinator::Get().setSystemSignatures<LevelTriggerSystem, Transform, Collider, Level, LevelTrigger>();
+	}
+
 	void Game::initLevelTriggers()
 	{
-		levelTriggerManager = std::make_unique<LevelTriggerManager>(tileMap.get());
+		/*Coordinator::Get().getSystem<LevelTriggerSystem>()->createLevelTrigger(
+			Transform{11.f * 33.f, 0, 0,0},
+			Collider{ {0,0}, 3 * 32, 5 },
+			Level{0},
+			LevelTrigger{1, 11 * 32.f + 3.f * 32.f / 2.f - 48.f / 2.f, 512.f - 72.f, false}
+		);
 
-		//Level 0-1 1-0
-		levelTriggerManager->AddTrigger(11 * 32, 0, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 512 - 72, 0, 1);
-		levelTriggerManager->AddTrigger(11 * 32, 512 - 5, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 0, 1, 0);
+		Coordinator::Get().getSystem<LevelTriggerSystem>()->createLevelTrigger(
+			Transform{ 11.f * 33.f, 512.f - 5.f, 0,0 },
+			Collider{ {0,0}, 3 * 32, 5 },
+			Level{ 0 },
+			LevelTrigger{ 0, 11 * 32.f + 3.f * 32.f / 2.f - 48.f / 2 / 2.f, 0.f, false }
+		);*/
+		
+		//levelTriggerManager = std::make_unique<LevelTriggerManager>(tileMap.get());
 
-		levelTriggerManager->AddTrigger(11 * 32, 0, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 512 - 72, 1, 2);
-		levelTriggerManager->AddTrigger(11 * 32, 512 - 5, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 0, 2, 1);
+		////Level 0-1 1-0
+		//levelTriggerManager->AddTrigger(11 * 32, 0, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 512 - 72, 0, 1);
+		//levelTriggerManager->AddTrigger(11 * 32, 512 - 5, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 0, 1, 0);
 
-		//TeleportTriggers
-		triggers.push_back(std::make_shared<Trigger>(13 * 32, 6 * 32, 32, 32 * 3, 2, [this]() {player->SetPosition(14 * 32, 512 - 5 * 32); Map::currentLevel = 3; }));
-		levelTriggerManager->AddTrigger(14 * 32, 512 - 3 * 32, 2 * 32, 32, 13 * 32, 8 * 32, 3, 2);
-		//13,6 14,8
+		//levelTriggerManager->AddTrigger(11 * 32, 0, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 512 - 72, 1, 2);
+		//levelTriggerManager->AddTrigger(11 * 32, 512 - 5, 3 * 32, 5, 11 * 32 + 3 * 32 / 2 - 48 / 2, 0, 2, 1);
 
-		levelTriggerManager->AddTrigger(24 * 32, 0, 32, 320, 32, 5 * 32, 2, 4);
-		levelTriggerManager->AddTrigger(0, 0, 32, 320, 23 * 32, 5 * 32, 4, 2);
+		////TeleportTriggers
+		//triggers.push_back(std::make_shared<Trigger>(13 * 32, 6 * 32, 32, 32 * 3, 2, [this]() {player->SetPosition(14 * 32, 512 - 5 * 32); Map::currentLevel = 3; }));
+		//levelTriggerManager->AddTrigger(14 * 32, 512 - 3 * 32, 2 * 32, 32, 13 * 32, 8 * 32, 3, 2);
+		////13,6 14,8
 
-		player->getInventory()->addItem(weapons["Sword"]);
+		//levelTriggerManager->AddTrigger(24 * 32, 0, 32, 320, 32, 5 * 32, 2, 4);
+		//levelTriggerManager->AddTrigger(0, 0, 32, 320, 23 * 32, 5 * 32, 4, 2);
+
+		//player->getInventory()->addItem(weapons["Sword"]);
 	}
 
 	void Game::initDialogues()
 	{
-		dialogueSystem = std::make_unique<DialogueSystem>(player.get(), &dialogueMenu, 100, 384, 600, 128, 8);
+		/*dialogueSystem = std::make_unique<DialogueSystem>(player.get(), &dialogueMenu, 100, 384, 600, 128, 8);
 
 		dialogues["Valley"] = std::make_shared<Dialogue>(std::vector<Replic>
 		{
@@ -85,22 +140,22 @@ namespace Tmpl8
 		dialogues["Tavern2"] = std::make_shared<Dialogue>(std::vector<Replic>
 		{
 			{"It seems like you have killed that wolf already.", 2.f},
-			{ "That wolf has killed many people, please, accept this gift from us.", 3.f, [this]() {questSystem->completeQuest("Initiation", "Reward"); } }
-		});
+			{ "That wolf has killed many people, please, accept this gift from us.", 3.f, [this]() {questSystem->completeQuest("Initiation", "Reward"); } }*/
+
 	}
 
 	void Game::initWeapons()
 	{
-		weapons["Sword"] = std::make_shared<Weapon>("assets/sword.png", 50, 1.f, 50);
+		/*weapons["Sword"] = std::make_shared<Weapon>("assets/sword.png", 50, 1.f, 50);*/
 	}
 
 	void Game::initNPCs()
 	{
-		npcs["Valley"] = std::make_shared<NPC>(&npcSprite, 500, 215, 48, 72, 1);
+		/*npcs["Valley"] = std::make_shared<NPC>(&npcSprite, 500, 215, 48, 72, 1);
 		npcs["Valley"]->giveDialogue(dialogues["Valley"].get());
 
 		npcs["Tavern"] = std::make_shared<NPC>(&npcSprite, 15 * 32, 4 * 32, 48, 72, 3);
-		npcs["Tavern"]->giveDialogue(dialogues["Tavern1"].get());
+		npcs["Tavern"]->giveDialogue(dialogues["Tavern1"].get());*/
 	}
 
 	void Game::initUI()
@@ -115,44 +170,71 @@ namespace Tmpl8
 
 	void Game::initPlayer()
 	{
-		player = std::make_shared<Player>(sprites["Player"].get(), 200, 200, 48, 72, tileMap.get());
+		/*player = std::make_shared<Player>(sprites["Player"].get(), 200, 200, 48, 72, tileMap.get());*/
+		player = Coordinator::Get().createEntity();
+		Coordinator::Get().addComponent<Transform>(player, Transform{ 400,256,48, 72 });
+		Coordinator::Get().addComponent<Renderable>(player, Renderable{ "Player", false });
+		Coordinator::Get().addComponent<ManagePlayerInputs>(player, ManagePlayerInputs{});
+		Coordinator::Get().addComponent<Physics>(player, Physics
+			{
+				Tmpl8::vec2{0.f,0.f},
+				Tmpl8::vec2{0.9f, 0.9f},
+				Tmpl8::vec2{8.f, 8.f},
+				Tmpl8::vec2{6.f, 6.f}
+			});
+		Coordinator::Get().addComponent<Collider>(player, Collider{ Tmpl8::vec2{0.f, 36.f}, 48,32 });
+		Coordinator::Get().addComponent<AlwaysRender>(player, AlwaysRender{});
+
+		Coordinator::Get().getSystem<LevelTriggerSystem>()->player = player;
 	}
 
 	void Game::initEventBus()
 	{
-		EventBus::Get();
+		/*EventBus::Get();*/
 	}
 
 	void Game::initTriggers()
 	{
 		//Chest with a sword
-		triggers.push_back(std::make_shared<Trigger>(20 * 32, 10 * 32, 64, 32, 0, [this]() {player->getInventory()->addItem(weapons["Sword"]); }, true));
+		//triggers.push_back(std::make_shared<Trigger>(20 * 32, 10 * 32, 64, 32, 0, [this]() {player->getInventory()->addItem(weapons["Sword"]); }, true));
 
-		//If wolf_boss gets killed , add replic to npc
-		EventBus::Get().AddListener(EventType::KILLED, std::function<void(int)>([this](int tag)
-			{
-				if (tag == 1)
-				{
-					npcs["Tavern"]->giveDialogue(dialogues["Tavern2"].get());
-					questSystem->completeQuest("Initiation", "Prey");
-				}
-			}));
+		////If wolf_boss gets killed , add replic to npc
+		//EventBus::Get().AddListener(EventType::KILLED, std::function<void(int)>([this](int tag)
+		//	{
+		//		if (tag == 1)
+		//		{
+		//			npcs["Tavern"]->giveDialogue(dialogues["Tavern2"].get());
+		//			questSystem->completeQuest("Initiation", "Prey");
+		//		}
+		//	}));
 	}
 
 	void Game::initQuests()
 	{
-		questSystem = std::make_shared<QuestSystem>(sprites["QuestIcon"].get(), sprites["CQuestIcon"].get());
+		/*questSystem = std::make_shared<QuestSystem>(sprites["QuestIcon"].get(), sprites["CQuestIcon"].get());
 
 		auto& questLine = std::make_shared<QuestLine>("Initiation", "You are starving, you should find some work before you die of hunger", [&]() {player->giveExp(100); });
 		questLine->addQuest("Work", "Find some work");
 		questLine->addQuest("Prey", "Kill the wolf");
 		questLine->addQuest("Reward", "Collect your reward");
-		questSystem->addNewQuestLine(questLine);
+		questSystem->addNewQuestLine(questLine);*/
 	}
 
 	void Game::Init()
 	{
-		reactBattleTime = 1.5f;
+		initCoordinator();
+		initSurfaces();
+
+		initComponents();
+		initSystems();
+
+		initMap();
+		initPlayer();
+
+		//initLevelTriggers();
+		
+
+		/*reactBattleTime = 1.5f;
 
 		setState(std::make_shared<ExploringState>());
 
@@ -166,13 +248,13 @@ namespace Tmpl8
 		initUI();
 		initLevelTriggers();
 		initTriggers();
-		initQuests();
+		initQuests();*/
 	}
 
 	void Game::Shutdown()
 	{
-		for (auto& [kay, value] : surfaces)
-			delete value;
+		//for (auto& [kay, value] : surfaces)
+			//delete value;
 
 	}
 
@@ -180,21 +262,37 @@ namespace Tmpl8
 	{
 		deltaTime /= 1000.f;
 
-		player->update(deltaTime);
+		//tileMap->update(deltaTime);
+
+		Coordinator::Get().getSystem<HandlePlayerInputSystem>()->update(deltaTime);
+		//Coordinator::Get().getSystem<EntityCollisionSystem>()->update(deltaTime);
+		Coordinator::Get().getSystem<CollisionSystem>()->update(deltaTime);
+		Coordinator::Get().getSystem<LevelTriggerSystem>()->update(deltaTime);
+
+		std::cout << 1.f / deltaTime << "\n";
+
+		/*player->update(deltaTime);
 		tileMap->update(deltaTime);
 
 		currentState->onUpdate(*this, deltaTime);
 
-		previousButtons = buttons;
+		previousButtons = buttons;*/
 	}
 
 	void Game::render(Tmpl8::Surface* screen)
 	{
 		screen->Clear(0);
+
+
 		tileMap->render(screen);
+
+		Coordinator::Get().getSystem<RenderByLevelSystem>()->update(screen);
+		Coordinator::Get().getSystem<AlwaysRenderSystem>()->update(screen);
+
+		/*tileMap->render(screen);
 		dialogueSystem->render(screen);
 
-		currentState->onRender(*this, screen);
+		currentState->onRender(*this, screen);*/
 	}
 
 	void Game::Tick(float deltaTime)
@@ -208,98 +306,98 @@ namespace Tmpl8
 	}
 	void Game::updateControl()
 	{
-		for (const auto& key : buttons)
-		{
-			if (!dialogueSystem->isActive)
-			{
-				switch (key)
-				{
-				case 'a':
-					player->moveLeft();
-					break;
-				case 'd':
-					player->moveRight();
-					break;
-				case 'w':
-					player->moveUp();
-					break;
-				case 's':
-					player->moveDown();
-					break;
-				}
-			}
+		//for (const auto& key : buttons)
+		//{
+		//	if (!dialogueSystem->isActive)
+		//	{
+		//		switch (key)
+		//		{
+		//		case 'a':
+		//			player->moveLeft();
+		//			break;
+		//		case 'd':
+		//			player->moveRight();
+		//			break;
+		//		case 'w':
+		//			player->moveUp();
+		//			break;
+		//		case 's':
+		//			player->moveDown();
+		//			break;
+		//		}
+		//	}
 
-			if (!dialogueSystem->isActive)
-				if (key == 'e' && !wasButtonPresseed('e') && isInteraction)
-				{
-					if (interactableObjectsInRange != nullptr)
-					{
-						NPC* n = dynamic_cast<NPC*>(interactableObjectsInRange);
-						if (n != nullptr)
-						{
-							if (!n->dialogueQueue.empty())
-							{
-								dialogueSystem->showDialogue(n->dialogueQueue.front());
-								n->dialogueQueue.pop();
-							}
-						}
-						Trigger* t = dynamic_cast<Trigger*>(interactableObjectsInRange);
-						if (t != nullptr)
-						{
-							t->interact(player.get());
-						}
-					}
-					//CheckInteractions();
-				}
+		//	if (!dialogueSystem->isActive)
+		//		if (key == 'e' && !wasButtonPresseed('e') && isInteraction)
+		//		{
+		//			if (interactableObjectsInRange != nullptr)
+		//			{
+		//				NPC* n = dynamic_cast<NPC*>(interactableObjectsInRange);
+		//				if (n != nullptr)
+		//				{
+		//					if (!n->dialogueQueue.empty())
+		//					{
+		//						dialogueSystem->showDialogue(n->dialogueQueue.front());
+		//						n->dialogueQueue.pop();
+		//					}
+		//				}
+		//				Trigger* t = dynamic_cast<Trigger*>(interactableObjectsInRange);
+		//				if (t != nullptr)
+		//				{
+		//					t->interact(player.get());
+		//				}
+		//			}
+		//			//CheckInteractions();
+		//		}
 
-			if (key == ' ' && !wasButtonPresseed(' '))
-			{
-				//Skip dialogue
-				dialogueSystem->Skip();
-			}
-		}
+		//	if (key == ' ' && !wasButtonPresseed(' '))
+		//	{
+		//		//Skip dialogue
+		//		dialogueSystem->Skip();
+		//	}
+		//}
 	}
 
 	void Game::Attack()
 	{
-		if (std::dynamic_pointer_cast<BattleState>(currentState) != nullptr)
-			return;
+		//if (std::dynamic_pointer_cast<BattleState>(currentState) != nullptr)
+		//	return;
 
-		std::vector<std::weak_ptr<Enemy>> enemiesAttack;
-		bool isHit = false;
-		//Check if at least one enemy is hit
-		for (auto& enemy : tileMap->getEnemies()[Map::currentLevel])
-		{
-			int dx = enemy->GetPosition().x - player->GetPosition().x;
-			int dy = enemy->GetPosition().y - player->GetPosition().y;
+		//std::vector<std::weak_ptr<Enemy>> enemiesAttack;
+		//bool isHit = false;
+		////Check if at least one enemy is hit
+		//for (auto& enemy : tileMap->getEnemies()[Map::currentLevel])
+		//{
+		//	int dx = enemy->GetPosition().x - player->GetPosition().x;
+		//	int dy = enemy->GetPosition().y - player->GetPosition().y;
 
-			int squareDistance = dx * dx + dy * dy;
-			int squareInteractDistance = interactDistance * interactDistance;
+		//	int squareDistance = dx * dx + dy * dy;
+		//	int squareInteractDistance = interactDistance * interactDistance;
 
-			if (squareDistance < squareInteractDistance)
-			{
-				isHit = true;
-				break;
-			}
-		}
-		//Get all enemies from the level
-		if (isHit)
-		{
-			for (auto& enemy : tileMap->getEnemies()[Map::currentLevel])
-			{
-				enemiesAttack.push_back(enemy);
-			}
-		}
-		//Start Battle
-		if (!enemiesAttack.empty())
-		{
-			setState(std::make_shared<BattleState>(enemiesAttack, tileMap->getEnemies()[Map::currentLevel], true));
-		}
+		//	if (squareDistance < squareInteractDistance)
+		//	{
+		//		isHit = true;
+		//		break;
+		//	}
+		//}
+		////Get all enemies from the level
+		//if (isHit)
+		//{
+		//	for (auto& enemy : tileMap->getEnemies()[Map::currentLevel])
+		//	{
+		//		enemiesAttack.push_back(enemy);
+		//	}
+		//}
+		////Start Battle
+		//if (!enemiesAttack.empty())
+		//{
+		//	setState(std::make_shared<BattleState>(enemiesAttack, tileMap->getEnemies()[Map::currentLevel], true));
+		//}
 	}
 
 	void Game::CheckInteractions()
 	{
-		for (auto* obj : InteractableObject::GetAllInteractables())
+		/*for (auto* obj : InteractableObject::GetAllInteractables())
 		{
 			int dx = obj->GetPosition().x - player->GetPosition().x;
 			int dy = obj->GetPosition().y - player->GetPosition().y;
@@ -336,6 +434,6 @@ namespace Tmpl8
 
 			interactableObjectsInRange = nullptr;
 			isInteraction = false;
-		}
+		}*/
 	}
 };

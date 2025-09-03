@@ -8,14 +8,15 @@
 #include <vector>
 #include <map>
 
-#include "LevelTriggerManager.h"
+//#include "LevelTriggerManager.h"
 #include "Entity.h"
-#include "Player.h"
+
 #include "NPC.h"
 #include "Map.h"
 #include "DialogueSystem.h"
 #include "EventBus.h"
 #include "QuestSystem.h"
+#include "Coordinator.h"
 
 class GameState;
 class ExploringState;
@@ -35,13 +36,13 @@ public:
 	void Init();
 	void Shutdown();
 	void Tick( float deltaTime );
-	void MouseUp(int button) { Attack(); }
+	void MouseUp(int button) { /*Attack();*/ }
 	void MouseDown(int button) {  }
 	void MouseMove( int x, int y ) { /* implement if you want to detect mouse movement */ }
-	void KeyUp(int key) { buttons.erase(key); }
+	void KeyUp(int key) { Coordinator::Get().getSystem<HandlePlayerInputSystem>()->buttons.erase(key); }
 	void KeyDown(int key) 
 	{ 
-		buttons.insert(key); 
+		Coordinator::Get().getSystem<HandlePlayerInputSystem>()->buttons.insert(key);
 	}
 
 	friend ExploringState;
@@ -52,23 +53,35 @@ private:
 
 	std::unordered_map<std::string, Surface*> surfaces;
 	std::unordered_map<std::string, std::shared_ptr<Sprite>> sprites;
-
+	/*
 	std::unique_ptr<DialogueSystem> dialogueSystem;
 
 	std::set<int> previousButtons;
 	std::set<int> buttons;
 
-	std::shared_ptr<GameState> currentState;
+	std::shared_ptr<GameState> currentState;*/
 	void setState(std::shared_ptr<GameState> state);
 
-	std::shared_ptr<QuestSystem> questSystem;
-
-	std::shared_ptr<Player> player;
 	std::shared_ptr<Map> tileMap;
 
-	std::unique_ptr<LevelTriggerManager> levelTriggerManager;
+	/*std::shared_ptr<QuestSystem> questSystem;
 
+	std::shared_ptr<Player> player;
+	
+	
+
+	std::unique_ptr<LevelTriggerManager> levelTriggerManager;*/
+
+	std::vector<Entity_t> levelTriggers;
+
+	Entity_t player;
+	//std::shared_ptr<RenderSystem> renderSystem;
+	//std::shared_ptr<HandleInputSystem> handleInputSystem;
+
+	void initCoordinator();
 	void initSurfaces();
+	void initComponents();
+	void initSystems();
 	void initLevelTriggers();
 	void initDialogues();
 	void initWeapons();
@@ -90,20 +103,20 @@ private:
 
 	bool wasButtonPresseed(int key) 
 	{ 
-		return std::find(previousButtons.begin(), previousButtons.end(), key) != previousButtons.end(); 
+		//return std::find(previousButtons.begin(), previousButtons.end(), key) != previousButtons.end(); 
 	}
 
-	std::unordered_map<std::string, std::shared_ptr<Dialogue>> dialogues;
-	std::unordered_map<std::string, std::shared_ptr<NPC>> npcs;
-	std::unordered_map<std::string, std::shared_ptr<Weapon>> weapons;
+	//std::unordered_map<std::string, std::shared_ptr<Dialogue>> dialogues;
+	//std::unordered_map<std::string, std::shared_ptr<NPC>> npcs;
+	//std::unordered_map<std::string, std::shared_ptr<Weapon>> weapons;
 
-	std::vector<std::shared_ptr<Trigger>> triggers;
+	//std::vector<std::shared_ptr<Trigger>> triggers;
 
-	InteractableObject* interactableObjectsInRange;
-	int interactDistance = 100;
-	bool isInteraction = false;
+	//InteractableObject* interactableObjectsInRange;
+	//int interactDistance = 100;
+	//bool isInteraction = false;
 
-	float reactBattleTime;
+	/*float reactBattleTime;*/
 };
 
 }; // namespace Tmpl8

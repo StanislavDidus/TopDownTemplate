@@ -4,7 +4,7 @@
 #include "surface.h"
 #include "UIElement.h"
 #include "Replic.h"
-#include "Player.h"
+//#include "Player.h"
 #include "Dialogue.h"
 #include <queue>
 #include <iostream>
@@ -14,7 +14,7 @@
 class DialogueSystem : public UIElement
 {
 public:
-	DialogueSystem(Player* p, Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int outLine);
+	DialogueSystem(Tmpl8::Sprite* sprite, int px, int py, int sx, int sy, int outLine);
 	virtual ~DialogueSystem();
 
 	void update(float deltaTime) override;
@@ -31,7 +31,7 @@ private:
 	 std::vector<std::string> currentText;
 
 	std::queue<Replic*> replicQueue;
-	Player* p;
+	
 
 	int outLine;
 
