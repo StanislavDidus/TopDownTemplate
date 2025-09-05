@@ -39,7 +39,7 @@ public:
 	template<typename T>
 	void addComponent(Entity_t entity, T component)
 	{
-		auto signature = entityManager->getSignature(entity);
+		auto& signature = entityManager->getSignature(entity);
 
 		//Add component to the component system
 		chunkManager->addComponent<T>(entity, component, signature);
@@ -55,7 +55,7 @@ public:
 	template<typename T>
 	void removeComponent(Entity_t entity)
 	{
-		auto signature = entityManager->getSignature(entity);
+		auto& signature = entityManager->getSignature(entity);
 		
 		componentManager->removeComponent<T>(entity, signature);
 
@@ -71,8 +71,13 @@ public:
 		return chunkManager->getComponent<T>(entity);
 	}
 
+	void printEntities()
+	{
+		chunkManager->printEntities();
+	}
+
 	template<typename... Ts>
-	const std::vector<Entity_t>& getEntities()
+	std::vector<Entity_t> getEntities()
 	{
 		Signature signature;
 		(signature.set(chunkManager->getComponentType<Ts>(), true), ...);

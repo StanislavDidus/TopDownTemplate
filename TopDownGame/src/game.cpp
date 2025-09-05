@@ -63,23 +63,14 @@ namespace Tmpl8
 	{
 		auto& renderByLevelSystem = Coordinator::Get().registerSystem<RenderByLevelSystem>();
 		renderByLevelSystem->sprites = sprites;
-		Coordinator::Get().setSystemSignatures<RenderByLevelSystem, Transform, Renderable, Level>();
 
 		auto& alwaysRenderSystem = Coordinator::Get().registerSystem<AlwaysRenderSystem>();
 		alwaysRenderSystem->sprites = sprites;
-		Coordinator::Get().setSystemSignatures<AlwaysRenderSystem, Transform, Renderable, AlwaysRender>();
 
 		Coordinator::Get().registerSystem<HandlePlayerInputSystem>();
-		Coordinator::Get().setSystemSignatures<HandlePlayerInputSystem, ManagePlayerInputs, Transform, Physics>();
-
 		Coordinator::Get().registerSystem<EntityCollisionSystem>();
-		Coordinator::Get().setSystemSignatures<EntityCollisionSystem, Transform, Physics, Collider>();
-
-		Coordinator::Get().registerSystem<CollisionSystem>();
-		Coordinator::Get().setSystemSignatures<CollisionSystem, Transform, Collider>();
-
+		Coordinator::Get().registerSystem<PlayerCollisionSystem>();
 		Coordinator::Get().registerSystem<LevelTriggerSystem>();
-		Coordinator::Get().setSystemSignatures<LevelTriggerSystem, Transform, Collider, Level, LevelTrigger>();
 	}
 
 	void Game::initLevelTriggers()
@@ -182,7 +173,7 @@ namespace Tmpl8
 				Tmpl8::vec2{8.f, 8.f},
 				Tmpl8::vec2{6.f, 6.f}
 			});
-		Coordinator::Get().addComponent<Collider>(player, Collider{ Tmpl8::vec2{0.f, 36.f}, 48,32 });
+		Coordinator::Get().addComponent<Collider>(player, Collider{ Tmpl8::vec2{0.f, 36.f}, 48,32, false });
 		Coordinator::Get().addComponent<AlwaysRender>(player, AlwaysRender{});
 
 		Coordinator::Get().getSystem<LevelTriggerSystem>()->player = player;
@@ -231,6 +222,8 @@ namespace Tmpl8
 		initMap();
 		initPlayer();
 
+		//Coordinator::Get().printEntities();
+
 		//initLevelTriggers();
 		
 
@@ -265,8 +258,7 @@ namespace Tmpl8
 		//tileMap->update(deltaTime);
 
 		Coordinator::Get().getSystem<HandlePlayerInputSystem>()->update(deltaTime);
-		//Coordinator::Get().getSystem<EntityCollisionSystem>()->update(deltaTime);
-		Coordinator::Get().getSystem<CollisionSystem>()->update(deltaTime);
+		Coordinator::Get().getSystem<PlayerCollisionSystem>()->update(deltaTime);
 		Coordinator::Get().getSystem<LevelTriggerSystem>()->update(deltaTime);
 
 		std::cout << 1.f / deltaTime << "\n";

@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <vector>
 #include <functional>
+#include <memory>
+#include <cassert>
 #include <bitset>
 
 using Entity_t = uint32_t;
@@ -22,12 +24,15 @@ class IChunkArray
 public:
 	virtual void moveData(Entity_t id, std::shared_ptr<Chunk> chunk) = 0;
 	virtual void entityDestroyed(Entity_t id) = 0;
+	virtual void printEntities() = 0;
 };
 
 template<typename T>
-class ChunkArray : IChunkArray
+class ChunkArray : public IChunkArray
 {
 public:
+	//ChunkArray(std::array<Entity_t, MAX_ENTITIES> entities) : entities(entities) {}
+
 	void addData(Entity_t id, T t)
 	{
 		assert(entityToIndex.find(id) == entityToIndex.end() && "Component was added to the entity more than once");
@@ -42,11 +47,11 @@ public:
 
 	void removeData(Entity_t id)
 	{
-		assert(entityToIndex.find(id) == entityToIndex.end() && "Entity does not exist");
+		assert(entityToIndex.find(id) != entityToIndex.end() && "Entity does not exist");
 
 		size_t removedIndex = entityToIndex[id];
 		size_t lastIndex = size - 1;
-		
+
 		std::swap(data[lastIndex], data[removedIndex]);
 		std::swap(entities[lastIndex], entities[removedIndex]);
 
@@ -54,7 +59,6 @@ public:
 
 		entityToIndex.erase(id);
 		size--;
-
 	}
 
 	void moveData(Entity_t entity, std::shared_ptr<Chunk> chunk) override
@@ -62,7 +66,6 @@ public:
 		chunk->addData(entity, data[entityToIndex[entity]]);
 		removeData(entity);
 	}
-
 	T& getData(Entity_t id)
 	{
 		assert(entityToIndex.find(id) != entityToIndex.end() && "Entity does not exist");
@@ -75,10 +78,23 @@ public:
 		if (entityToIndex.find(id) != entityToIndex.end())
 			removeData(id);
 	}
+
+	void printEntities() override
+	{
+		const char* name = typeid(T).name();
+
+		std::cout << "CHUNK_TYPE: " << name << "\n";
+		/*for (const auto& [entity, index] : entityToIndex)
+		{
+			std::cout << entity << "\n";
+		}*/
+		std::cout << "-----\n";
+	}
 private:
 	std::array<T, MAX_ENTITIES> data;
 	std::unordered_map<Entity_t, size_t> entityToIndex;
 	std::array<Entity_t, MAX_ENTITIES> entities;
+	size_t size = 0;
 };
 
 class Chunk
@@ -98,8 +114,6 @@ public:
 	void removeData(Entity_t id)
 	{
 		getChunkArray<T>()->removeData(id);
-
-		removeEntity(id);
 	}
 
 	template<typename T>
@@ -113,7 +127,9 @@ public:
 		for (auto& [name, array] : chunkArrays)
 		{
 			array->moveData(id, chunk);
+			
 		}
+		removeEntity(id);
 	}
 
 	void addChunkArray(const char* name, std::shared_ptr<IChunkArray> chunkArray)
@@ -121,11 +137,11 @@ public:
 		chunkArrays[name] = chunkArray;
 	}
 
-	const std::vector<Entity_t>& getEntities()
+	std::vector<Entity_t> getEntities()
 	{
 		std::vector<Entity_t> entityVector;
-		entityVector.reserve(MAX_ENTITIES);
-		entityVector.insert(entityVector.begin(), entities.begin(), entities.end());
+		entityVector.reserve(size);
+		entityVector.insert(entityVector.end(), entities.begin(), entities.begin() + size);
 		return entityVector;
 	}
 
@@ -134,7 +150,7 @@ public:
 		this->signature = signature;
 	}
 
-	const Signature& getSignature() const
+	const Signature& getSignature()
 	{
 		return signature;
 	}
@@ -144,18 +160,33 @@ public:
 		for (auto& [name, array] : chunkArrays)
 		{
 			array->entityDestroyed(id);
-			if (entityToIndex.find(id) != entityToIndex.end())
-				removeEntity(id);
+			removeEntity(id);
 		}
 	}
 
 	template<typename T>
-	std::shared_ptr<ChunkArray<T>> getChunkArray() const
+	std::shared_ptr<ChunkArray<T>> getChunkArray()
 	{
 		const char* name = typeid(T).name();
 
 		return std::static_pointer_cast<ChunkArray<T>>(chunkArrays[name]);
 	}
+
+	void printEntities(int number)
+	{
+		std::cout << "CHUNK: " << number << "\n";
+		for (const auto& [name, array] : chunkArrays)
+		{
+			array->printEntities();
+		}
+		std::cout << "----------\n";
+	}
+
+	size_t getSize()
+	{
+		return size;
+	}
+
 private:
 	void addEntity(Entity_t id)
 	{
@@ -166,6 +197,7 @@ private:
 			size++;
 		}
 	}
+
 	void removeEntity(Entity_t id)
 	{
 		if (entityToIndex.find(id) != entityToIndex.end())
@@ -186,7 +218,7 @@ private:
 	std::array<Entity_t, MAX_ENTITIES> entities;
 	std::unordered_map<Entity_t, size_t> entityToIndex;
 	Signature signature;
-	size_t size;
+	size_t size = 0;
 };
 
 class ChunkManager
@@ -197,7 +229,10 @@ public:
 	{
 		const char* name = typeid(T).name();
 
-		chunkArraysRegister[registeredComponents] = []() { return std::make_shared<ChunkArray<T>>(); };
+		//                                                  clasify return type
+		chunkArraysRegister[registeredComponents] = []() -> std::shared_ptr<IChunkArray> { 
+			return std::make_shared<ChunkArray<T>>();
+		};
 
 		componentTypes[name] = registeredComponents;
 		componentNames[registeredComponents] = name;
@@ -218,18 +253,29 @@ public:
 			oldChunk = it->second; 
 
 		//Generate new signature
-		signature.set(componentType[name], true);
+		signature.set(componentTypes[name], true);
 
 		//Find or create new chunk for entity
 		auto newChunk = findOrCreateChunk(signature);
 		newChunk->setSignature(signature);
 
 		//Move all data to new chunk from the old one
-		if(oldChunk != nullptr)
+		if (oldChunk != nullptr)
+		{
 			oldChunk->moveData(entity, newChunk);
 
+			//Delete previous chuck if empty
+			if (oldChunk->getSize() == 0)
+			{
+				chunks.erase(std::remove(chunks.begin(), chunks.end(), oldChunk), chunks.end());
+
+				oldChunk.reset();
+			}
+
+		}
+
 		//Add new data
-		newChunk.addData(entity, component);
+		newChunk->addData(entity, component);
 
 		//Set chunk to this entity
 		entityToChunk[entity] = newChunk;
@@ -255,6 +301,14 @@ public:
 		//Move all data to new chunk from the old one
 		oldChunk->removeData<T>(entity);
 		oldChunk->moveData(entity, newChunk);
+		
+		//Delete previous chuck if empty
+		if (oldChunk->getSize() == 0)
+		{
+			chunks.erase(std::remove(chunks.begin(), chunks.end(), oldChunk), chunks.end());
+
+			oldChunk.reset();
+		}
 
 		//Set chunk to this entity
 		entityToChunk[entity] = newChunk;
@@ -263,9 +317,9 @@ public:
 	template<typename T>
 	T& getComponent(Entity_t entity)
 	{
-		assert(entitiesToChunk.find(entity) != entityToChunk.end());
+		assert(entityToChunk.find(entity) != entityToChunk.end());
 		
-		entityToChunk[entity]->getData(entity);
+		return entityToChunk[entity]->getData<T>(entity);
 	}
 
 	template<typename T>
@@ -276,7 +330,7 @@ public:
 		return componentTypes[name];
 	}
 
-	const std::vector<Entity_t>& getEntities(const Signature& signature)
+	std::vector<Entity_t> getEntities(const Signature& signature)
 	{
 		std::vector<Entity_t> entities;
 		for (const auto& chunk : chunks)
@@ -288,6 +342,7 @@ public:
 				entities.insert(entities.end(), chunkVector.begin(), chunkVector.end());
 			}
 		}
+		return entities;
 	}
 
 	void entityDestroyed(Entity_t entity)
@@ -295,6 +350,14 @@ public:
 		for (auto& chunk : chunks)
 		{
 			chunk->entityDestroyed(entity);
+		}
+	}
+
+	void printEntities()
+	{
+		for (int i = 0; i < chunks.size(); i++)
+		{
+			chunks[i]->printEntities(i);
 		}
 	}
 
@@ -330,6 +393,7 @@ private:
 		}
 
 		chunk->setSignature(signature);
+		chunks.push_back(chunk);
 		return chunk;
 	}
 
@@ -341,3 +405,4 @@ private:
 	std::vector<std::shared_ptr<Chunk>> chunks;
 	ComponentType registeredComponents;
 };
+

@@ -210,7 +210,7 @@ void Map::initLevelTriggers(const ldtk::Layer& layer, int level)
 
 		auto trigger = Coordinator::Get().createEntity();
 		Coordinator::Get().addComponent<Transform>(trigger, Transform{ pos.x * 2.f, pos.y * 2.f, size.x * 2, size.y * 2 });
-		Coordinator::Get().addComponent<Collider>(trigger, Collider{ {0.f,0.f}, size.x * 2, size.y * 2 });
+		Coordinator::Get().addComponent<Collider>(trigger, Collider{ {0.f,0.f}, size.x * 2, size.y * 2, true });
 		Coordinator::Get().addComponent<Level>(trigger, Level{ level });
 		Coordinator::Get().addComponent<LevelTrigger>(trigger, LevelTrigger{ nextLevel, newX, newY, isDestroyable });
 	}
@@ -222,7 +222,7 @@ void Map::initCollisions(const ldtk::Layer& layer, int level)
 	{
 		auto tile = Coordinator::Get().createEntity();
 		Coordinator::Get().addComponent<Transform>(tile, Transform{ static_cast<float>(intPoint.x * 32), static_cast<float>(intPoint.y * 32), 32, 32 });
-		Coordinator::Get().addComponent<Collider>(tile, Collider{ {0.f,0.f}, 32, 32 });
+		Coordinator::Get().addComponent<Collider>(tile, Collider{ {0.f,0.f}, 32, 32, false });
 		Coordinator::Get().addComponent<Level>(tile, Level{ level });
 	}
 }

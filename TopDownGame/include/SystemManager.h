@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ComponentManager.h"
+#include "ChunkManager.h"
+#include "EntityManager.h"
 #include <set>
 
 class Coordinator;

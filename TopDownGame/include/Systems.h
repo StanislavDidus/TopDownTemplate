@@ -36,7 +36,7 @@ public:
 	void update(float deltaTime);
 };
 
-class CollisionSystem : public System
+class PlayerCollisionSystem : public System
 {
 public:
 	void update(float deltaTime);
@@ -46,7 +46,6 @@ class LevelTriggerSystem : public System
 {
 public:
 	void update(float deltaTime);
-	void createLevelTrigger(Transform ts, Collider cl, Level l, LevelTrigger lt);
 
 	Entity_t player;
 };

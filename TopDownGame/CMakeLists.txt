@@ -11,7 +11,10 @@ include_directories(
   "${CMAKE_SOURCE_DIR}/SDL2/lib/SDL2-2.0.3/include"
   "${CMAKE_SOURCE_DIR}/SDL2/lib/FreeImage/inc"
  "${CMAKE_SOURCE_DIR}/include"
+ "${CMAKE_SOURCE_DIR}/OpenGL"
 )
+
+set(ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
 
 # Додаємо імпортовані бібліотеки вручну
 add_library(SDL2 STATIC IMPORTED)
@@ -31,6 +34,7 @@ set_target_properties(FreeImage PROPERTIES
 
 # Створюємо виконуваний файл
 add_executable(MyProject ${SOURCES})
+target_compile_definitions(MyProject PRIVATE ASSETS_PATH="${ASSETS_DIR}")
 
 #LDtk
 add_subdirectory(LDtkLoader)

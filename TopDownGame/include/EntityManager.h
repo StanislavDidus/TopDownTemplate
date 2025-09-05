@@ -7,15 +7,6 @@
 #include "bitset"
 #include <cassert>
 #include <array>
-#include "ChunkManager.h"
-
-using Entity_t = uint32_t;
-const Entity_t MAX_ENTITIES = 1000;
-
-using ComponentType = uint8_t;
-const ComponentType MAX_COMPONENTS = 32;
-
-using Signature = std::bitset<MAX_COMPONENTS>;
 
 class EntityManager
 {
